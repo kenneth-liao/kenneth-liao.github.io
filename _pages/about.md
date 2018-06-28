@@ -2,7 +2,7 @@
 title: "About"
 permalink: /about/
 header:
-  "/images/banner-taiwan.jpg"
+  "/images/taiwan.jpg"
 ---
 
-I'm a junior data scientist with a passion for solving hard problems with data.
+I'm a junior data scientist with a passion for solving intricate problems with data.
