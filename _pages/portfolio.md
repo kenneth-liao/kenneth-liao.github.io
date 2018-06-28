@@ -4,10 +4,8 @@ permalink: /portfolio/
 title: "Portfolio"
 author_profile: true
 header:
-  image: "/images/zion.jpg"
+  image: "/images/zionmedium.jpg"
 ---
-
- # This script will display all posts.
 
 {% include base_path %}
 {% include group-by-array collection=site.posts field="tags" %}
