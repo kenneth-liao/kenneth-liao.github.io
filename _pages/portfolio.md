@@ -4,7 +4,7 @@ permalink: /portfolio/
 title: "Portfolio"
 author_profile: true
 header:
-  image: "/images/zionmedium.jpg"
+  image: "/images/zionsmall.jpg"
 ---
 
 {% include base_path %}
