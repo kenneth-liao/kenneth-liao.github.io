@@ -2,7 +2,7 @@
 title: "About"
 permalink: /about/
 header:
-  image: "/images/taiwan-smallest.jpg"
+  image: "/images/clouds.jpg"
 ---
 
-An electrical engineer turned data scientist.
+Excited about data and business analytics. Ready for a challenge.
