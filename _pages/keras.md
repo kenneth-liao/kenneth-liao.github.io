@@ -1,3 +1,8 @@
+---
+title: "Keras"
+permalink: /keras/
+header:
+---
 
 # Stock Market Forecasting with a Simple Neural Network
 
@@ -5,7 +10,7 @@ Created by Kenneth Liao <br>
 3/11/2018
 
 ---
-This will be a quick introduction to building a simple neural network (NN) model with the Keras API for stock market forecasting. This article is organized into the sections outlined below. 
+This will be a quick introduction to building a simple neural network (NN) model with the Keras API for stock market forecasting. This article is organized into the sections outlined below.
 
 ### The following topics will be covered:
 
@@ -72,7 +77,7 @@ weekly_data.head()
 ```
 
     (904, 6)
-    
+
 
 
 
@@ -1150,7 +1155,7 @@ interp_data.head()
 ```
 
     (898, 16)
-    
+
 
 
 
@@ -1317,7 +1322,7 @@ interp_data.head()
 traces={}
 for i in range(N_stocks,len(interp_data.columns)):
     col=interp_data.columns[i]
-    
+
     traces['trace' + str(i)] = go.Scatter(
                 name=str(col),
                 x=interp_data.index,
@@ -1422,54 +1427,54 @@ ind_desc.style.set_properties(**{'text-align': 'left'})
         }    #T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6row9_col1 {
             text-align:  left;
         }</style>  
-<table id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6" > 
-<thead>    <tr> 
-        <th class="blank level0" ></th> 
-        <th class="col_heading level0 col0" >Indicator</th> 
-        <th class="col_heading level0 col1" >Description</th> 
-    </tr></thead> 
-<tbody>    <tr> 
-        <th id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6level0_row0" class="row_heading level0 row0" >0</th> 
-        <td id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6row0_col0" class="data row0 col0" >HOUST</td> 
-        <td id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6row0_col1" class="data row0 col1" >Housing Starts: Total: New Privately Owned Housing Units Started</td> 
-    </tr>    <tr> 
-        <th id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6level0_row1" class="row_heading level0 row1" >1</th> 
-        <td id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6row1_col0" class="data row1 col0" >UNRATENSA</td> 
-        <td id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6row1_col1" class="data row1 col1" >Civilian Unemployment Rate NSA</td> 
-    </tr>    <tr> 
-        <th id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6level0_row2" class="row_heading level0 row2" >2</th> 
-        <td id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6row2_col0" class="data row2 col0" >EMRATIO</td> 
-        <td id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6row2_col1" class="data row2 col1" >Civilian Employment-Population Ratio</td> 
-    </tr>    <tr> 
-        <th id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6level0_row3" class="row_heading level0 row3" >3</th> 
-        <td id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6row3_col0" class="data row3 col0" >UEMPMED</td> 
-        <td id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6row3_col1" class="data row3 col1" >Median Duration of Unemployment</td> 
-    </tr>    <tr> 
-        <th id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6level0_row4" class="row_heading level0 row4" >4</th> 
-        <td id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6row4_col0" class="data row4 col0" >UMCSENT</td> 
-        <td id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6row4_col1" class="data row4 col1" >University of Michigan: Consumer Sentiment</td> 
-    </tr>    <tr> 
-        <th id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6level0_row5" class="row_heading level0 row5" >5</th> 
-        <td id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6row5_col0" class="data row5 col0" >USSLIND</td> 
-        <td id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6row5_col1" class="data row5 col1" >Leading Index for the United States</td> 
-    </tr>    <tr> 
-        <th id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6level0_row6" class="row_heading level0 row6" >6</th> 
-        <td id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6row6_col0" class="data row6 col0" >KCFSI</td> 
-        <td id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6row6_col1" class="data row6 col1" >Kansas City Financial Stress Index</td> 
-    </tr>    <tr> 
-        <th id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6level0_row7" class="row_heading level0 row7" >7</th> 
-        <td id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6row7_col0" class="data row7 col0" >IPMAN</td> 
-        <td id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6row7_col1" class="data row7 col1" >Industrial Production: Manufacturing (NAICS)</td> 
-    </tr>    <tr> 
-        <th id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6level0_row8" class="row_heading level0 row8" >8</th> 
-        <td id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6row8_col0" class="data row8 col0" >VIXCLS</td> 
-        <td id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6row8_col1" class="data row8 col1" >CBOE Volatility Index: NSA</td> 
-    </tr>    <tr> 
-        <th id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6level0_row9" class="row_heading level0 row9" >9</th> 
-        <td id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6row9_col0" class="data row9 col0" >DGS10</td> 
-        <td id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6row9_col1" class="data row9 col1" >10-Year Treasury Constant Maturity Rate</td> 
-    </tr></tbody> 
-</table> 
+<table id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6" >
+<thead>    <tr>
+        <th class="blank level0" ></th>
+        <th class="col_heading level0 col0" >Indicator</th>
+        <th class="col_heading level0 col1" >Description</th>
+    </tr></thead>
+<tbody>    <tr>
+        <th id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6level0_row0" class="row_heading level0 row0" >0</th>
+        <td id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6row0_col0" class="data row0 col0" >HOUST</td>
+        <td id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6row0_col1" class="data row0 col1" >Housing Starts: Total: New Privately Owned Housing Units Started</td>
+    </tr>    <tr>
+        <th id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6level0_row1" class="row_heading level0 row1" >1</th>
+        <td id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6row1_col0" class="data row1 col0" >UNRATENSA</td>
+        <td id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6row1_col1" class="data row1 col1" >Civilian Unemployment Rate NSA</td>
+    </tr>    <tr>
+        <th id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6level0_row2" class="row_heading level0 row2" >2</th>
+        <td id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6row2_col0" class="data row2 col0" >EMRATIO</td>
+        <td id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6row2_col1" class="data row2 col1" >Civilian Employment-Population Ratio</td>
+    </tr>    <tr>
+        <th id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6level0_row3" class="row_heading level0 row3" >3</th>
+        <td id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6row3_col0" class="data row3 col0" >UEMPMED</td>
+        <td id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6row3_col1" class="data row3 col1" >Median Duration of Unemployment</td>
+    </tr>    <tr>
+        <th id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6level0_row4" class="row_heading level0 row4" >4</th>
+        <td id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6row4_col0" class="data row4 col0" >UMCSENT</td>
+        <td id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6row4_col1" class="data row4 col1" >University of Michigan: Consumer Sentiment</td>
+    </tr>    <tr>
+        <th id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6level0_row5" class="row_heading level0 row5" >5</th>
+        <td id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6row5_col0" class="data row5 col0" >USSLIND</td>
+        <td id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6row5_col1" class="data row5 col1" >Leading Index for the United States</td>
+    </tr>    <tr>
+        <th id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6level0_row6" class="row_heading level0 row6" >6</th>
+        <td id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6row6_col0" class="data row6 col0" >KCFSI</td>
+        <td id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6row6_col1" class="data row6 col1" >Kansas City Financial Stress Index</td>
+    </tr>    <tr>
+        <th id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6level0_row7" class="row_heading level0 row7" >7</th>
+        <td id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6row7_col0" class="data row7 col0" >IPMAN</td>
+        <td id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6row7_col1" class="data row7 col1" >Industrial Production: Manufacturing (NAICS)</td>
+    </tr>    <tr>
+        <th id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6level0_row8" class="row_heading level0 row8" >8</th>
+        <td id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6row8_col0" class="data row8 col0" >VIXCLS</td>
+        <td id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6row8_col1" class="data row8 col1" >CBOE Volatility Index: NSA</td>
+    </tr>    <tr>
+        <th id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6level0_row9" class="row_heading level0 row9" >9</th>
+        <td id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6row9_col0" class="data row9 col0" >DGS10</td>
+        <td id="T_8410a56c_a1c3_11e8_84fb_e442a6f8adc6row9_col1" class="data row9 col1" >10-Year Treasury Constant Maturity Rate</td>
+    </tr></tbody>
+</table>
 
 
 
@@ -1489,7 +1494,7 @@ print(ht.create_table(ind_desc))
     <tr><td>IPMAN</td><td>Industrial Production: Manufacturing (NAICS)</td></tr>
     <tr><td>VIXCLS</td><td>CBOE Volatility Index: NSA</td></tr>
     <tr><td>DGS10</td><td>10-Year Treasury Constant Maturity Rate</td></tr></table>
-    
+
 
 ---
 
@@ -1522,7 +1527,7 @@ train_set.head()
 ```
 
     (209, 16)
-    
+
 
 
 
@@ -1691,7 +1696,7 @@ cv_set.head()
 ```
 
     (51, 16)
-    
+
 
 
 
@@ -1864,8 +1869,8 @@ The plot belows shows the 6 normalized ETFs from the training dataset. This is t
 
 ```python
 # Normalize the two datasets, plot the normalized train data
-train_norm = ((train_set - train_set.min())/(train_set.max() - train_set.min())) 
-cv_norm = ((cv_set - cv_set.min())/(cv_set.max() - cv_set.min())) 
+train_norm = ((train_set - train_set.min())/(train_set.max() - train_set.min()))
+cv_norm = ((cv_set - cv_set.min())/(cv_set.max() - cv_set.min()))
 
 for col in train_set:
     if train_set[col].nunique() == 1:
@@ -1880,7 +1885,7 @@ for col in cv_set:
 traces={}
 for i in range(N_stocks):
     col=train_norm.columns[i]
-    
+
     traces['trace' + str(i)] = go.Scatter(
                 name=str(col),
                 x=train_norm.index,
@@ -2098,8 +2103,8 @@ The last step in the data prep is to split the train and cv datasets into inputs
 
 ```python
 # Dimensions: [# training samples x # indicators]
-X_train = train_norm.iloc[:, N_stocks:] 
-X_cv = cv_norm.iloc[:, N_stocks:] 
+X_train = train_norm.iloc[:, N_stocks:]
+X_cv = cv_norm.iloc[:, N_stocks:]
 
 # Dimensions: [# training samples x # ETFs]
 Y_train = train_norm.iloc[:, :N_stocks]
@@ -2341,7 +2346,7 @@ So we need our NN model to:
 
 ---
 
-Let's call out what X and Y are explicitly. X is what we feed the NN model and Y is what it tries to predict. In our case, X is the indicator data over the specified timeframe. Given X, the NN will output its predictions of the ETF prices. We can then compare the model's predictions to the actual ETF prices (Y) over the same timeframe. 
+Let's call out what X and Y are explicitly. X is what we feed the NN model and Y is what it tries to predict. In our case, X is the indicator data over the specified timeframe. Given X, the NN will output its predictions of the ETF prices. We can then compare the model's predictions to the actual ETF prices (Y) over the same timeframe.
 
 Below we can see the shapes of our X and Y matrices for both the training and cv data. The first dimension in each matrix is the number of samples. For us, each sample corresponds to a particular weekly time period. In the training set we have 37 samples and in our cv set we have 15: recall our 70/30 split on one year's worth of data. For the X_train and X_cv matrices, the second dimension is the number of indicators which is 10. For the Y_train and Y_cv matrices, the second dimension corresponds to the number of ETFs which is 6. Scroll up to see X_train and Y_train for a reminder of what these matrices look like. These matrix shapes are important when setting up your NN model.
 
@@ -2357,20 +2362,20 @@ print("Y_cv shape: " + str(Y_cv.shape))
 
     X_train shape: (209, 10)
     Y_train shape: (209, 6)
-    
+
     X_cv shape: (51, 10)
     Y_cv shape: (51, 6)
-    
+
 
 ---
 
-We will be utilizing the **sequential** model for our NN. The sequential model allows us to simply add layers to our network, one by one, to form a linear stack. 
+We will be utilizing the **sequential** model for our NN. The sequential model allows us to simply add layers to our network, one by one, to form a linear stack.
 
-We then add the first hidden layer with **model.add()**. We feed this the **Dense()** function which means every node in the hidden layer will be connected to every node from the previous layer (input layer). 
+We then add the first hidden layer with **model.add()**. We feed this the **Dense()** function which means every node in the hidden layer will be connected to every node from the previous layer (input layer).
 
-The first argument given to *Dense()* is the # of output units which is equal to the number of nodes in the hidden layer. We will start with 10, the same as the input layer. 
+The first argument given to *Dense()* is the # of output units which is equal to the number of nodes in the hidden layer. We will start with 10, the same as the input layer.
 
-The *input_shape()* argument corresponds to the shape of the input you're feeding the model. To train our model we want to feed it X_train, which has a shape of (37,10), and have it predict Y_train of shape (37,6). So our input_shape() should be (37,10). Keras allows us to simply specify the dimension of a single sample and leave the second dimension open for flexibility. That way we can feed it different batch sizes of samples with the same sample dimension. So we can simply pass input_shape(10,), leaving the batch size open. 
+The *input_shape()* argument corresponds to the shape of the input you're feeding the model. To train our model we want to feed it X_train, which has a shape of (37,10), and have it predict Y_train of shape (37,6). So our input_shape() should be (37,10). Keras allows us to simply specify the dimension of a single sample and leave the second dimension open for flexibility. That way we can feed it different batch sizes of samples with the same sample dimension. So we can simply pass input_shape(10,), leaving the batch size open.
 
 The last argument is the activation function we want to apply to the layer's output. We will start with the rectified linear (relU) function. Other functions you can try are the 'sigmoid' and 'tanh' functions.
 
@@ -2389,7 +2394,7 @@ from keras.models import Sequential
 from keras.layers import Dense
 from keras import backend
 from keras import regularizers
- 
+
 # Define RMSE metric
 def rmse(y_true, y_pred):
     return backend.sqrt(backend.mean(backend.square(y_pred - y_true), axis=-1))
@@ -2411,7 +2416,7 @@ model.summary()
 ```
 
     Using TensorFlow backend.
-    
+
 
     _________________________________________________________________
     Layer (type)                 Output Shape              Param #   
@@ -2424,7 +2429,7 @@ model.summary()
     Trainable params: 346
     Non-trainable params: 0
     _________________________________________________________________
-    
+
 
 ## 3. Training & Evaluating The Model
 
@@ -2443,7 +2448,7 @@ Details about each training iteration are printed as the model trains. We can ge
 # THIS WILL THROW AN ERROR IF ANY DATA IS MISSING IN THE TRAINING SET
 
 # Fit the model
-H = model.fit(X_train, Y_train, 
+H = model.fit(X_train, Y_train,
               validation_data=(X_cv, Y_cv), epochs=100)
 
 # Save the mean squared errors
@@ -2653,7 +2658,7 @@ rmse_cv = np.array(H.history['val_rmse'])
     Epoch 100/100
     209/209 [==============================] - 0s 34us/step - loss: 0.0099 - rmse: 0.0938 - val_loss: 0.0475 - val_rmse: 0.2060
     Wall time: 1.83 s
-    
+
 
 
 ```python
@@ -2661,7 +2666,7 @@ print('LOWEST VAL_RMSE: ' + str(np.array(H.history['val_rmse']).min()))
 ```
 
     LOWEST VAL_RMSE: 0.20595527338046654
-    
+
 
 ---
 
@@ -2745,7 +2750,7 @@ Hint: Change the parameters and then go to *Kernel* and hit *Restart & Run All*
 predicted_col_names = []
 for col in Y_train.columns:
     predicted_col_names.append('Predicted - ' + col)
-    
+
 # Get the *trained* model's predictions on X_train and X_cv
 predictions_train = pd.DataFrame(model.predict(X_train), index=Y_train.index,
                 columns=predicted_col_names)
@@ -2761,7 +2766,7 @@ plot_data_cv = pd.DataFrame(Y_cv).join(
     pd.DataFrame(predictions_cv, index=Y_cv.index,
                 columns=predicted_col_names), how='left')
 
-# Stack the two dataframes above 
+# Stack the two dataframes above
 plot_all = pd.concat([plot_data_train, plot_data_cv])
 ```
 
@@ -2909,7 +2914,7 @@ train_range = pd.Series(train_range).append(train_range)
 train_range.index = plot_data_train.columns
 
 train_mins = pd.Series(train_set.iloc[:, 0:N_stocks].min()).append(train_set.iloc[:, 0:N_stocks].min())
-train_mins.index = plot_data_train.columns 
+train_mins.index = plot_data_train.columns
 
 cv_range = cv_set.iloc[:, 0:N_stocks].max()-cv_set.iloc[:, 0:N_stocks].min()
 cv_range = pd.Series(cv_range).append(cv_range)
@@ -2921,7 +2926,7 @@ cv_mins.index = plot_data_cv.columns
 unnorm_train = plot_data_train.multiply(train_range) + train_mins
 unnorm_cv = plot_data_cv.multiply(cv_range) + cv_mins
 
-# Stack the two dataframes above 
+# Stack the two dataframes above
 plot_all_unnorm = pd.concat([unnorm_train, unnorm_cv])
 ```
 
@@ -2930,7 +2935,7 @@ plot_all_unnorm = pd.concat([unnorm_train, unnorm_cv])
 traces={}
 for i in range(len(plot_all_unnorm.columns)):
     col=plot_all_unnorm.columns[i]
-    
+
     # create traces for the actual values
     if i < N_stocks:
         traces['trace' + str(i)] = go.Scatter(
@@ -2966,7 +2971,7 @@ cv_start = plot_data_cv.index[0]
 os.chdir('C:/Users/Kenny/projects/repositories/kennfucius.github.io/images/0002-keras-ETF/')
 
 for i in range(N_stocks):
-    
+
     layout= go.Layout(
     xaxis=dict(
         title='Date',
@@ -2997,9 +3002,9 @@ for i in range(N_stocks):
             )
         )]
     )
-    
+
     data = [traces['trace'+str(i)], traces['trace'+str(i+N_stocks)]]
-    
+
     fig = go.Figure(data=data, layout=layout)
     plotly.offline.plot(fig, filename='predictions-' + str(i) + '.html')
 ```
@@ -3009,7 +3014,7 @@ for i in range(N_stocks):
 #Plot just the validation portion
 for i in range(len(plot_all_unnorm.columns)):
     col=plot_all_unnorm.columns[i]
-    
+
     # create traces for the actual values
     if i < N_stocks:
         traces['trace' + str(i)] = go.Scatter(
@@ -3042,7 +3047,7 @@ for i in range(len(plot_all_unnorm.columns)):
 os.chdir('C:/Users/Kenny/projects/repositories/kennfucius.github.io/images/0002-keras-ETF/')
 
 for i in range(N_stocks):
-    
+
     layout= go.Layout(
     xaxis=dict(
         title='Date',
@@ -3058,9 +3063,9 @@ for i in range(N_stocks):
     margin=dict(t=50,
         r=0)
     )
-    
+
     data = [traces['trace'+str(i)], traces['trace'+str(i+N_stocks)]]
-    
+
     fig = go.Figure(data=data, layout=layout)
     plotly.offline.iplot(fig, filename='cv-predictions-' + str(i) + '.html')
 ```
@@ -3229,15 +3234,15 @@ plotly.offline.iplot(fig, filename='prediction-ratios-cv.html')
 
 
 ```python
-# Create best fit lines 
+# Create best fit lines
 from scipy import stats
 
 traces=[]
 for indicator in train_set.columns[N_stocks:]:
-    
+
     xi=train_set[indicator]
     yi=train_set['Technology (IYW)']
-    
+
     slope, intercept, r_value, p_value, std_err = stats.linregress(xi,yi)
     line = slope*xi+intercept
 
@@ -3246,7 +3251,7 @@ for indicator in train_set.columns[N_stocks:]:
         x=xi,
         y=yi,
         showlegend=False)
-    
+
     trace1 = go.Scatter(
         name='Best Fit',
         mode='lines',
@@ -4063,5 +4068,3 @@ plotly.__version__
 
 
     '3.1.0'
-
-
