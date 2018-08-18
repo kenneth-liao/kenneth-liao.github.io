@@ -2,6 +2,7 @@
 title: "Keras"
 permalink: /keras/
 header:
+  image: "/images/stars-1600.jpg"
 ---
 
 # Stock Market Forecasting with a Simple Neural Network
