@@ -15,15 +15,15 @@ toc_icon: "thumb_up"
 toc_sticky: "true"
 ---
 
-# Objective
+## Objective
 In part 1 of this series, I will demonstrate how to build a collaborative filtering model in python. Training, optimizing, and analyzing the model will follow in subsequent posts.
 
-# Background
+## Background
 
-## Data
+### Data
 The data I'll be using comes from boardgamegeek.com. The raw data has userID, gameID, and ratings columns as in the sample below.
 
-### Table 1 | Raw data
+#### Table 1 | Raw data
 
 | userID | gameID | rating |
 | :---: |
@@ -33,21 +33,21 @@ The data I'll be using comes from boardgamegeek.com. The raw data has userID, ga
 |	83 | 70149 | 8.0 |
 |	83 | 43015 | 9.0 |
 
-### Figure 1 | Ratings Distribution
+#### Figure 1 | Ratings Distribution
 ![Ratings Distribution]({{ "/images/0003-recommender-system/ratings-distribution.png" | absolute_url }})
 
 Figure 1 shows the distribution of all user ratings on a semilog plot. The median rating is 7.0. The ratings are clearly quantized at integer and half integer levels. A closer examination reveals further quantized levels at every quarter rating. Below the quarter interval the ratings distribution becomes more continuous.
 
-## The Model
+### The Model
 
 The specific type of collaborative filtering model I want to build is commonly referred to as model based, as opposed to content based. The goal is for the model to find underlying features of the data that make good predictors of user ratings for a given game. This is sort of a black box approach because we don't actually know what these underlying features are. An intuitive assumption is to think of these features as common properties we would associate with board games such as genre, number of players, recommended age, average length of game, etc. If a user is asked to rate a game they've never played before, it's natural to think these properties would play an important role in the user's rating.
 
-### Figure 2 | Matrix Implementation
+#### Figure 2 | Matrix Implementation
 ![Matrix Implementation]({{ "/images/0003-recommender-system/model.png" | absolute_url }})
 
 Implementation of the model in python is best optimized using matrix algebra which greatly speeds up calculations that must be performed iteratively. The matrix implementation is illustrated in Figure 2. The data is described by a users matrix and a games matrix. These matrices have a common dimension N_features. These are the features that the model will learn and each individual user or game will be described by a vector of these features. The number of features is a model parameter that we define and tune like the number of neurons in neural network models. To generate a prediction matrix of all users' predictions on all games, we perform a matrix multiplication as illustrated above.
 
-### Code Block 1 | Importing Dependencies
+#### Code Block 1 | Importing Dependencies
 
 ```python
 import pandas as pd
@@ -57,7 +57,7 @@ import cofi
 ```
 To build this model, we will be using the pandas, numpy, and scipy libraries. The fourth import is a python module I wrote that contains several functions to make running the model more convenient. From the scipy library, we will be using the [fmin_cg](https://docs.scipy.org/doc/scipy-0.19.0/reference/generated/scipy.optimize.fmin_cg.html#scipy.optimize.fmin_cg) optimization function. This function requires certain inputs in specific formats which is the nature of the functions written in the cofi module. I will explain these functions as we use them.
 
-### Table 2 | Sparse Matrix
+#### Table 2 | Sparse Matrix
 
 | userID/gameID | 3 | 5 | 10 | 11 | 12 |
 | :---: |
@@ -69,7 +69,7 @@ To build this model, we will be using the pandas, numpy, and scipy libraries. Th
 
 The first step to building the model is to get the data into the right form. We start by pivoting the original data table so that it looks like the sparse matrix in Table 2. This will make comparing predictions easy since we can conveniently use matrix algebra to compute all rating errors in a single line of code. Once we have the sparse matrix, we need to split the data into training and cross-validation (CV) data sets.
 
-### Code Block 2 | Generating X_train & X_cv
+#### Code Block 2 | Generating X_train & X_cv
 ```python
 # Remove a random 20% of the original data for cross-validation
 X_cv = data.sample(frac=0.2)
@@ -84,7 +84,7 @@ X_cv = X_cv.pivot(index='user', columns='game', values='rating')
 
 20% of the data is reserved for cross-validation while 80% of the available data will be used for training. In pandas, this is easily done using the .sample(frac=0.2) method where the frac argument indicates we want to sample 20%. The corresponding values in the original dataframe is then blanked to form the training data set (Figure 3). This produces two dataframes, X_train and X_cv:
 
-### Figure 3 | X_train & X_cv
+#### Figure 3 | X_train & X_cv
 ![X_train & X_cv]({{ "/images/0003-recommender-system/X_train&X_cv.png" | absolute_url }})
 
 In order to use fmin_cg, we will have to provide the following 4 inputs:
@@ -93,7 +93,7 @@ In order to use fmin_cg, we will have to provide the following 4 inputs:
 3. f'(x) | Gradient of objective function.
 4. args | Optional arguments.
 
-### Code Block 3 | get_args()
+#### Code Block 3 | get_args()
 ```python
 def get_args(X, N_features, Lambda):
     X = np.array(X)
@@ -127,7 +127,7 @@ The outputs of the function are:
 6. N_games - the number of games (scalar)
 7. mu - the mean rating of each game (vector)
 
-### Code Block 3 | unroll_params() & roll_params()
+#### Code Block 3 | unroll_params() & roll_params()
 ```python
 def unroll_params(X, Theta, order='C'):
     X = np.array(X)
@@ -152,7 +152,7 @@ def roll_params(parameters, *args):
 ```
 Now the model uses a 1-dimensional array (vector) of inputs to the objective function. unroll_params() takes the X and Theta matrices and flattens them into vectors and then joins them together to form a long 1-dimensional vector. roll_params() takes this long vector and reshapes them into the X and Theta matrices. The matrix form of the parameters is used for to get the predictions from the model using the matrix multiplication depicted in Figure 2.
 
-### Code Block 4 | cost_f()
+#### Code Block 4 | cost_f()
 ```python
 def cost_f(parameters, *args):
     Y = args[1]
@@ -175,7 +175,7 @@ def cost_f(parameters, *args):
 ```
 Cost_f() is the objective function we want to minimize and in this case it computes the total square error (J) for all predictions.
 
-### Code Block 5 | grad_f()
+#### Code Block 5 | grad_f()
 ```python
 def grad_f(parameters, *args):
     Y = args[1]
@@ -197,7 +197,7 @@ def grad_f(parameters, *args):
 ```
 Grad_f() computes the gradient of cost_f(). Fmin_cg() uses the gradient to determine if updates to X and Theta are decreasing the total error or increasing it.
 
-### Code Block 2 | Training the Model
+#### Code Block 2 | Training the Model
 ```python
 args = cofi.get_args(X_train, N_features=250, Lambda=1)
 parameters = cofi.unroll_params(args[0], args[2])
@@ -207,18 +207,18 @@ results = fmin_cg(cofi.cost_f, parameters, cofi.grad_f, args=args,
 ```
 To train the model, we first get the optional arguments by calling get_args(). We get the parameters which will be the unrolled X and Theta matrices to be updated by the optimization function. We then call fmin_cg() and pass it the 4 inputs described above.
 
-# Results
+## Results
 
-### Figure 3 | Feature Dependence
+#### Figure 3 | Feature Dependence
 ![Feature Dependence]({{ "/images/0003-recommender-system/Nfeature-dependence.png" | absolute_url }})
 
 Figure 3 shows the model's error dependence on the number of features, N. As the number of features increases, the model's error decreases. This is exactly what one should expect. If we attempt to predict user ratings of games given only the recommended age of the games, you can imagine the results would be quit unreliable. If however, we are given the game's recommended age, genre, number of players, game length, etc., the results should be more accurate.
 
-### Figure 4 | Training Results
+#### Figure 4 | Training Results
 ![Training Results]({{ "/images/0003-recommender-system/predictions_vs_training.png" | absolute_url }})
 
 Figure 4 shows the results of training the model. The predicted ratings are plotted against the actual ratings in the training data set. This gives a visual indication of how well the model fits the data based on the spread of points from the line with slope unity. If the model predicts the ratings perfectly, the points will all lie exactly on the black line. Of course, such a model would likely be prone to overfitting so including a regularization term can help mitigate overfitting.
 
-# Summary
+## Summary
 
 In this part of the recommender system series, I demonstrated a basic collaborative filtering model for predicting user ratings of board games. The model is able to fit the training data well. The learning curves (Figure 6) suggest the model is overfitting the training data. The predicted vs actual ratings in the CV data set (Figure 5) show that the model tends to be significantly less accurate at ratings above and below the overall mean rating. In the next part of the series, I will explore different ways to optimize this model.
