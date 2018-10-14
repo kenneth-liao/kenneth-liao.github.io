@@ -61,4 +61,26 @@ We can easily check our prediction matrix against the actual data by pivoting th
 
 ## Results
 
+#### Figure 3 | Feature Dependence
+![Feature Dependence]({{ "/images/0003-recommender-system/Nfeature-dependence.png" | absolute_url }})
+
+Figure 3 shows the model's error dependence on the number of features, N. As the number of features increases, the model's error decreases. This is exactly what one should expect. If we attempt to predict user ratings of games given only the recommended age of the games, you can imagine the results would be quit unreliable. If however, we are given the game's recommended age, genre, number of players, game length, etc., the results should be more accurate.
+
+#### Figure 4 | Training Results
+![Training Results]({{ "/images/0003-recommender-system/predictions_vs_training.png" | absolute_url }})
+
+Figure 4 shows the results of training the model. The predicted ratings are plotted against the actual ratings in the training data set. This gives a visual indication of how well the model fits the data based on the spread of points from the line with slope unity. If the model predicts the ratings perfectly, the points will all lie exactly on the black line. Of course, such a model would likely be prone to overfitting so including a regularization term can help mitigate overfitting.
+
+#### Figure 5 | Cross Validation Results
+![CV Results]({{ "/images/0003-recommender-system/predictions_vs_cv.png" | absolute_url }})
+
+Figure 5 shows a similar plot where this time we're comparing predicted ratings to actual ratings in the CV data.
+
+#### Figure 6 | Learning Curves
+![Learning Curves]({{ "/images/0003-recommender-system/learning curves.png" | absolute_url }})
+
+It is often useful to plot learning curves as a function of data sample size. This helps determine if more or less training data affects the model's performance. The learning curves above show the error of the model on the training and CV data sets as a function of sample size. As the data set approaches 100% of the available training data, the CV data continues to decrease. It does appear to flatten out towards the end, indicating that providing the model with more data may not significantly improve performance. Another striking result of this plot is the gap between the training error and the CV error. This large gaps suggest the model does not generalize well to the unseen CV data.
+
 ## Summary
+
+In this part of the recommender system series, I demonstrated a basic collaborative filtering model for predicting user ratings of board games. In subsequent parts to this series, I will explore other types of recommender systems.
