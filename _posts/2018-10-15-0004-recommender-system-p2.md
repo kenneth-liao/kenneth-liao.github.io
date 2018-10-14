@@ -16,7 +16,7 @@ toc_sticky: "true"
 ---
 
 ## Objective
-In part 1 of this series, I will walk through building the collaborative filtering model in python. Training, optimizing, and analyzing the model will follow in subsequent posts.
+In part 1 of this series, I will demonstrate how to build a collaborative filtering model in python. Training, optimizing, and analyzing the model will follow in subsequent posts.
 
 ## Background
 
@@ -40,7 +40,7 @@ Figure 1 shows the distribution of all user ratings on a semilog plot. The media
 
 ### The Model
 
-The specific type of collaborative filtering model I want to build is commonly referred to as model based, as opposed to content based. The goal is for the neural network to find underlying features of the data that make good predictors of user ratings for a given game. Neural networks are often called black box models because we don't actually know what these underlying features are. An intuitive assumption is to think of these features as common properties we would associate with board games such as genre, number of players, recommended age, average length of game, etc. If a user is asked to rate a game they've never played before, it's natural to think these properties would play an important role in the user's rating.
+The specific type of collaborative filtering model I want to build is commonly referred to as model based, as opposed to content based. The goal is for the model to find underlying features of the data that make good predictors of user ratings for a given game. This is sort of a black box approach because we don't actually know what these underlying features are. An intuitive assumption is to think of these features as common properties we would associate with board games such as genre, number of players, recommended age, average length of game, etc. If a user is asked to rate a game they've never played before, it's natural to think these properties would play an important role in the user's rating.
 
 #### Figure 2 | Matrix Implementation
 ![Matrix Implementation]({{ "/images/0003-recommender-system/model.png" | absolute_url }})
@@ -83,4 +83,4 @@ It is often useful to plot learning curves as a function of data sample size. Th
 
 ## Summary
 
-In this part of the recommender system series, I demonstrated a basic collaborative filtering model for predicting user ratings of board games. In subsequent parts to this series, I will explore other types of recommender systems.
+In this part of the recommender system series, I demonstrated a basic collaborative filtering model for predicting user ratings of board games. The model is able to fit the training data well. The learning curves (Figure 6) suggest the model is overfitting the training data. The predicted vs actual ratings in the CV data set (Figure 5) show that the model tends to be significantly less accurate at ratings above and below the overall mean rating. In the next part of the series, I will explore different ways to optimize this model.
