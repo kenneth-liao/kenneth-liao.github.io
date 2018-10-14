@@ -47,7 +47,8 @@ The specific type of collaborative filtering model I want to build is commonly r
 
 Implementation of the model in python is best optimized using matrix algebra which greatly speeds up calculations that must be performed iteratively. The matrix implementation is illustrated in Figure 2. The data is described by a users matrix and a games matrix. These matrices have a common dimension N_features. These are the features that the model will learn and each individual user or game will be described by a vector of these features. The number of features is a model parameter that we define and tune like the number of neurons in neural network models. To generate a prediction matrix of all users' predictions on all games, we perform a matrix multiplication as illustrated above.
 
-### Code Block 1 | Importing Dependencies
+#### Code Block 1 | Importing Dependencies
+
 ```python
 import pandas as pd
 import numpy as np
