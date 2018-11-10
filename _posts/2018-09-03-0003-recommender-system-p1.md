@@ -112,20 +112,20 @@ def get_args(X, N_features, Lambda):
     return args
 ```
 The first function we'll be using is called get_args() and it takes in 3 arguments.
-1. X - a dataframe assumed to be in the form of N_users x N_games (see Figure 3)
-2. N_features - the number of features to use
-3. Lambda - the regularization parameter
+1. X | a dataframe assumed to be in the form of N_users x N_games (see Figure 3)
+2. N_features | the number of features to use
+3. Lambda | the regularization parameter
 
 The function returns a tuple of 8 parameters that will be fed into fmin_cg as optional parameters. Fmin_cg uses optional parameters to define additional variables needed by the objective and gradient functions. This is exactly what we need since we want to be able to manipulate some of these variables like the regularization parameter and N_features when optimizing the model in the future.
 
 The outputs of the function are:
-1. X_init - the initial guess of the N_games x N_features matrix. (matrix)
-2. Y - the actual ratings matrix that we've subtracted the mean rating for each game from. This centers each game's ratings distribution around the same value. The means are added back to the model's output to generate final predictions. (matrix)
-3. Theta_init - the intial guess of N_users x N_features matrix (matrix)
-4. Lambda - the regularization parameter (scalar)
-5. N_users - the number of users (scalar)
-6. N_games - the number of games (scalar)
-7. mu - the mean rating of each game (vector)
+1. X_init | the initial guess of the N_games x N_features matrix. (matrix)
+2. Y | the actual ratings matrix that we've subtracted the mean rating for each game from. This centers each game's ratings distribution around the same value. The means are added back to the model's output to generate final predictions. (matrix)
+3. Theta_init | the intial guess of N_users x N_features matrix (matrix)
+4. Lambda | the regularization parameter (scalar)
+5. N_users | the number of users (scalar)
+6. N_games | the number of games (scalar)
+7. mu | the mean rating of each game (vector)
 
 #### Code Block 3 | unroll_params() & roll_params()
 ```python
@@ -150,7 +150,7 @@ def roll_params(parameters, *args):
 
     return X, Theta
 ```
-Now the model uses a 1-dimensional array (vector) of inputs to the objective function. unroll_params() takes the X and Theta matrices and flattens them into vectors and then joins them together to form a long 1-dimensional vector. roll_params() takes this long vector and reshapes them into the X and Theta matrices. The matrix form of the parameters is used for to get the predictions from the model using the matrix multiplication depicted in Figure 2.
+The model requires a 1-dimensional array (vector) of inputs to feed the objective function. unroll_params() takes the X and Theta matrices and flattens them into vectors and then joins them together to form a long 1-dimensional vector. roll_params() takes this long vector and reshapes them into the X and Theta matrices. This is essentially the inverse operation of unroll_params(). The matrix form of the parameters is used to get the predictions of the model using the matrix multiplication depicted in Figure 2.
 
 #### Code Block 4 | cost_f()
 ```python
@@ -204,8 +204,14 @@ parameters = cofi.unroll_params(args[0], args[2])
 
 results = fmin_cg(cofi.cost_f, parameters, cofi.grad_f, args=args,
                  full_output=True, maxiter=100)
+
+X_opt, Theta_opt = cofi.roll_params(results[0], *args)
+
+predictions = np.dot(Theta_opt, X_opt.T)
 ```
-To train the model, we first get the optional arguments by calling get_args(). We get the parameters which will be the unrolled X and Theta matrices to be updated by the optimization function. We then call fmin_cg() and pass it the 4 inputs described above.
+To train the model, we first get the optional arguments by calling get_args(). We get the parameters which will be the unrolled X and Theta matrices to be updated by the optimization function. We then call fmin_cg() and pass it the 4 inputs described above. In short, fmin_cg() is finding the optimal values of "parameters" that when used to make predictions, produce the lowest error.
+
+After training, the model will return a vectorized and optimized form of X (X_opt) and Theta (Theta_opt). We can transform this vector into X and Theta matrices by calling roll_params(). Making predictions then just involves the matrix product of the two optimized matrices.
 
 ## Results
 
@@ -219,6 +225,11 @@ Figure 3 shows the model's error dependence on the number of features, N. As the
 
 Figure 4 shows the results of training the model. The predicted ratings are plotted against the actual ratings in the training data set. This gives a visual indication of how well the model fits the data based on the spread of points from the line with slope unity. If the model predicts the ratings perfectly, the points will all lie exactly on the black line. Of course, such a model would likely be prone to overfitting so including a regularization term can help mitigate overfitting.
 
+#### Figure 5 | Prediction Results
+![Prediction Results]({{ "/images/0003-recommender-system/predictions_vs_cv.png" | absolute_url }})
+
+After training the model, we can make predictions on the CV data set. Figure 5 shows the predicted ratings vs the actual ratings in the CV data set. The red line shows the line of best fit for the data. We can see the best fit line is quite skewed compared to the line with slope unity. The model tends to predict higher than the actual values at lower ratings while it tends to under predict at higher ratings. The regression line crosses the ideal line at around the median total rating. Also notice that at the higher ratings, some predictions are actually above 10 (10 is the maximum rating possible). This is something we can easily fix by setting boundaries on the model's output.
+
 ## Summary
 
-In this part of the recommender system series, I demonstrated a basic collaborative filtering model for predicting user ratings of board games. The model is able to fit the training data well. The learning curves (Figure 6) suggest the model is overfitting the training data. The predicted vs actual ratings in the CV data set (Figure 5) show that the model tends to be significantly less accurate at ratings above and below the overall mean rating. In the next part of the series, I will explore different ways to optimize this model.
+In this part of the recommender system series, I demonstrated how to build a collaborative filtering model for predicting user ratings of board games. The model is able to fit the training data well but shows room for improvement in predictions on the cross-validation data. In the next part of this series, I will explore methods for optimizing this model so that it can generalize better to the cross-validation data.
