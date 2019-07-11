@@ -82,9 +82,9 @@ m = data[data.sex=='m']
 f = data[data.sex=='f']
 ```
 
-**Black Sample Size: 2435 | White Sample Size: 2435**
+Black Sample Size: 2435 | White Sample Size: 2435
 
-**Male Sample Size: 1124 | Female Sample Size: 3746**
+Male Sample Size: 1124 | Female Sample Size: 3746
 
 We can see that the black and white sample sizes are equal, but this is not true for the male and female sample populations. However, we will avoid issues with unequal sample sizes by using proportions in our analysis.
 
@@ -162,9 +162,9 @@ print('Black std: %s' % round(b_std, 4))
 print('White std: %s' % round(w_std, 4))
 ```
 
-**Black mean: 0.0645 | White mean: 0.0965**
+Black mean: 0.0645 | White mean: 0.0965
 
-**Black std: 0.2456 | White std: 0.2953**
+Black std: 0.2456 | White std: 0.2953
 
 ```python
 # compute the standard error
@@ -281,8 +281,8 @@ p_bootstrap_race = create_bootstrap_sample(sample1_mean=b.call.mean(), sample2_m
 print('Race Bootstrap population mean: %s' % round(np.mean(p_bootstrap_race), 4))
 print('Race Bootstrap population std: %s' % round(np.std(p_bootstrap_race), 4))
 ```
-**Race Bootstrap population mean: 0.032**
-**Race Bootstrap population std: 0.0115**
+Race Bootstrap population mean: 0.032
+Race Bootstrap population std: 0.0115
 
 It's important to note that the sample size of each bootstrap sample must be the same as the original black and white sample populations so as to not affect the variance of the bootstrap sample population. Since a higher sample size will lead to a lower standard deviation. The number of bootstrap samples we create however will not affect the individual bootstrap population variance.
 
@@ -397,7 +397,7 @@ print('Z-score - Race: %s' % round(z_race, 2))
 print('Critical Z: %s' % z_crit)
 ```
 
-**Z-score - Race: -2.79 | Critical Z: -1.96**
+Z-score - Race: -2.79 | Critical Z: -1.96
 
 ```python
 # calculate z-score for sex bootstrap population
@@ -407,7 +407,7 @@ print('Z-score - Sex: %s' % round(z_sex, 2))
 print('Critical Z: %s' % z_crit)
 ```
 
-**Z-score - Sex: -1.91 | Critical Z: -1.96**
+Z-score - Sex: -1.91 | Critical Z: -1.96
 
 Regarding the black and white populations, the z-score of -2.79 is much less than the critical Z of -2.33. The z-score of -2.79 corresponds to a p-value of 0.00527, which is again much less than the 0.05. Thus we reach the same conclusion as in the frequentist approach and can reject the null hypothesis in support of the alternate hypothesis.
 
