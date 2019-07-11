@@ -3,7 +3,7 @@ title: "Race & Gender Discrimination in the US Job Market"
 date: 2019-07-10
 tags: [exploratory analysis, inferrential statistics, hypothesis testing]
 header:
-  overlay_image: "/images/0004-racial-discrimination-jobs/banner.jpg"
+  overlay_image: "/images/0004-discrimination-jobs/banner.jpg"
   overlay_filter: 0.5
   teaser: "/images/0004-discrimination-jobs/banner.jpg"
 excerpt: "Applying inferrential statistics to examine racial discrimination in the US Job Market"
@@ -66,7 +66,7 @@ data[['race', 'sex', 'call']].head()
 ```
 
 #### Table 1 | Sample of Data
-![Data Table]({{ "/images/0004-racial-discrimination-jobs/data-table-fig1.png" | absolute_url }})
+![Data Table]({{ "/images/0004-discrimination-jobs/data-table-fig1.png" | absolute_url }})
 
 ```python
 # subset the race data into individual dataframes
@@ -109,7 +109,7 @@ iplot(fig, filename='callback-proportions-black-white.html')
 
 #### Figure 1 | Callback Proportions Between Black & White Populations
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-<iframe width="100%" height="550" frameborder="0" scrolling="no" src="/images/0004-racial-discrimination-jobs/callback-proportions-black-white.html"></iframe>
+<iframe width="100%" height="550" frameborder="0" scrolling="no" src="/images/0004-discrimination-jobs/callback-proportions-black-white.html"></iframe>
 
 The histogram above shows a small difference between the proportion of callbacks in the black and white sample populations. Specifically, white-sounding names received a callback 9.65% of the time while black-sounding names received a callback only 6.45% of the time. We will find out if this difference is statistically significant.
 
@@ -133,7 +133,7 @@ iplot(fig, filename='callback-proportions-male-female.html')
 
 #### Figure 2 | Callback Proportions Between Male & Female Populations
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-<iframe width="100%" height="550" frameborder="0" scrolling="no" src="/images/0004-racial-discrimination-jobs/callback-proportions-male-female.html"></iframe>
+<iframe width="100%" height="550" frameborder="0" scrolling="no" src="/images/0004-discrimination-jobs/callback-proportions-male-female.html"></iframe>
 
 The difference in proportion of callbacks is much smaller between the male (7.38%) and female (8.25%) sample populations. Again, we'll determine if this difference is statistically significant using our hypothesis testing.
 
@@ -305,7 +305,7 @@ iplot(fig, filename='bootstrap-distribution-race.html')
 
 #### Figure 3 | Bootstrap Sample Differences - Race
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-<iframe width="100%" height="550" frameborder="0" scrolling="no" src="/images/0004-racial-discrimination-jobs/bootstrap-distribution-race.html"></iframe>
+<iframe width="100%" height="550" frameborder="0" scrolling="no" src="/images/0004-discrimination-jobs/bootstrap-distribution-race.html"></iframe>
 
 The plot above shows the distribution of all the differences calculated between the black and white bootstrap sample populations. We can see it's centered around 0.032 and falls off quickly at around 0.01 and 0.05.
 
@@ -331,7 +331,7 @@ iplot(fig, filename='bootstrap-distribution-sex.html')
 
 #### Figure 4 | Bootstrap Sample Differences - Sex
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-<iframe width="100%" height="550" frameborder="0" scrolling="no" src="/images/0004-racial-discrimination-jobs/bootstrap-distribution-sex.html"></iframe>
+<iframe width="100%" height="550" frameborder="0" scrolling="no" src="/images/0004-discrimination-jobs/bootstrap-distribution-sex.html"></iframe>
 
 Using the same function to generate bootstrap samples for the male and female sample populations, we get the distribution above. The mean is closer to 0.023 and the lower tail shows negative differences. Implying that in some of the bootstrap samples generated, the proportion of males receiving callbacks is actually higher than the proportion of females receiving callbacks.
 
@@ -374,7 +374,7 @@ iplot(fig, filename='ecdf-race-sex.html')
 
 #### Figure 5 | ECDF of Bootstrap Sample Differences
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-<iframe width="100%" height="550" frameborder="0" scrolling="no" src="/images/0004-racial-discrimination-jobs/ecdf-race-sex.html"></iframe>
+<iframe width="100%" height="550" frameborder="0" scrolling="no" src="/images/0004-discrimination-jobs/ecdf-race-sex.html"></iframe>
 
 Comparing the two ECDFs above, we can see that the distribution of differences in proportions of callbacks for sex sits further to the left than for race. The probability of getting a difference in proportion between the black and white sample populations equal to 0 is only 0.2%. While between male and females this probability is equal to 2.5%, more than an order of magnitude higher. This tells us that it is much less likely that the proportion of callbacks is equal between the black and white populations than between males and females.
 
