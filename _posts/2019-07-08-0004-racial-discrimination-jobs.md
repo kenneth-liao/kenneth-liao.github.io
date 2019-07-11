@@ -1,12 +1,12 @@
 ---
-title: "Examining Race & Gender Discrimination in the US Job Market"
+title: "Race & Gender Discrimination in the US Job Market"
 date: 2019-07-10
 tags: [exploratory analysis, inferrential statistics, hypothesis testing]
 header:
   overlay_image: "/images/0004-racial-discrimination-jobs/banner.jpg"
   overlay_filter: 0.5
-  teaser: "/images/0004-racial-discrimination-jobs/banner.jpg"
-excerpt: "Using inferrential statistics to examine racial discrimination in the US Job Market"
+  teaser: "/images/0004-discrimination-jobs/banner.jpg"
+excerpt: "Applying inferrential statistics to examine racial discrimination in the US Job Market"
 mathjax: "true"
 # This sets the table of contents on the right of the page
 toc: true
@@ -32,9 +32,7 @@ The null and alternate hypotheses in both cases of race and sex are similar. The
 
 ### Race Hypotheses
 
-\begin{equation*}
-H_0: \bar p_{white} - \bar p_{black} = 0
-\end{equation*}
+$$H_0: \bar p_{white} - \bar p_{black} = 0$$
 
 \begin{equation*}
 H_A: \bar p_{white} - \bar p_{black} \neq 0
@@ -170,10 +168,9 @@ print('Black std: %s' % round(b_std, 4))
 print('White std: %s' % round(w_std, 4))
 ```
 
-Black mean: 0.0645
-White mean: 0.0965
-Black std: 0.2456
-White std: 0.2953
+Black mean: 0.0645 | White mean: 0.0965
+
+Black std: 0.2456 | White std: 0.2953
 
 ```python
 # compute the standard error
@@ -406,8 +403,7 @@ print('Z-score - Race: %s' % round(z_race, 2))
 print('Critical Z: %s' % z_crit)
 ```
 
-Z-score - Race: -2.79
-Critical Z: -1.96
+Z-score - Race: -2.79 | Critical Z: -1.96
 
 ```python
 # calculate z-score for sex bootstrap population
@@ -417,8 +413,7 @@ print('Z-score - Sex: %s' % round(z_sex, 2))
 print('Critical Z: %s' % z_crit)
 ```
 
-Z-score - Sex: -1.91
-Critical Z: -1.96
+Z-score - Sex: -1.91 | Critical Z: -1.96
 
 Regarding the black and white populations, the z-score of -2.79 is much less than the critical Z of -2.33. The z-score of -2.79 corresponds to a p-value of 0.00527, which is again much less than the 0.05. Thus we reach the same conclusion as in the frequentist approach and can reject the null hypothesis in support of the alternate hypothesis.
 
