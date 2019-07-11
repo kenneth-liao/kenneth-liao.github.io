@@ -34,19 +34,14 @@ The null and alternate hypotheses in both cases of race and sex are similar. The
 
 $$H_0: \bar p_{white} - \bar p_{black} = 0$$
 
-\begin{equation*}
-H_A: \bar p_{white} - \bar p_{black} \neq 0
-\end{equation*}
+
+$$H_A: \bar p_{white} - \bar p_{black} \neq 0$$
 
 ### Sex Hypotheses
 
-\begin{equation*}
-H_0: \bar p_{male} - \bar p_{female} = 0
-\end{equation*}
+$$H_0: \bar p_{male} - \bar p_{female} = 0$$
 
-\begin{equation*}
-H_A: \bar p_{male} - \bar p_{female} \neq 0
-\end{equation*}
+$$H_A: \bar p_{male} - \bar p_{female} \neq 0$$
 
 For the two sets of hypotheses I will use both a frequentist and bootstrap approach and compare these results against each other. In the frequentist approach, I will perform a two-sample t test to compare the means of the two sample populations of interest. This will tell us if the two sample populations belong to the same overall population, that is, their distributions are equal. If their distributions are equal, we have evidence supporting the null hypotheses.
 
