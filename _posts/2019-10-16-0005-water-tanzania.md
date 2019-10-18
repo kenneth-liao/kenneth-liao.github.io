@@ -42,47 +42,47 @@ https://www.drivendata.org/competitions/7/pump-it-up-data-mining-the-water-table
 The top 10 types of pumps are shown in Table 1. The majority of pumps use gravity as the pumping mechanism. Nira and Tanira pumps are the most popular model of handpumps represented in this dataset. However, the india mark ii is the world's most widely used water handpump<sup>5</sup>. The majority of these hand pumps are designed to serve communities of around 300 people.
 
 #### Table 1 | Pump Count by Pump Type
-extraction_type | Pump Count
+| extraction_type | Pump Count |
 | :----: | :----: |
-gravity	| 26780
-nira/tanira | 8154
-other | 6430
-submersible | 4764
-swn 80 | 3670
-mono | 2865
-india mark ii | 2400
-afridev | 1770
-ksb | 1415
-other - rope pump | 451
+| gravity	| 26780 |
+| nira/tanira | 8154 |
+| other | 6430 |
+| submersible | 4764 |
+| swn 80 | 3670 |
+| mono | 2865 |
+| india mark ii | 2400 |
+| afridev | 1770 |
+| ksb | 1415 |
+| other - rope pump | 451 |
 
 #### Which type of pump has the highest number of non functional pumps?
 
 Table 2 shows that the number of non functional pumps within each pump type does not follow the same trend as the total number of pumps. The pump type with the highest number of non functional pumps is, not surprisingly, `gravity`. The second however is `other` with 5,195 non functional pumps. Of course `other` is likely a catch-all term for any pump that didn't fit into any of the other pump types. Therefore, we can't know exactly what type of pump it is. Interestingly, even though there are 1500+ more `nira/tanira` total pumps than `other`, `other` contains over 3,000 more non functional pumps than `nira/tanira`. It will be interesting to see which pump type the model is best able to classify.
 
 #### Table 2 | Highest Non Functional Pump Counts
-extraction_type | functional | functional needs repair | non functional
+| extraction_type | functional | functional needs repair | non functional | 
 | :----: | :----: | :----: |
-gravity | 16048.0 | 2701.0 | 8031.0
-other | 1029.0 | 206.0 | 5195.0
-nira/tanira | 421.0 | 641.0 | 2092.0
-submersible | 2626.0 | 227.0 | 1911.0
-mono | 1082.0 | 129.0 | 1654.0
+| gravity | 16048.0 | 2701.0 | 8031.0 | 
+| other | 1029.0 | 206.0 | 5195.0 | 
+| nira/tanira | 421.0 | 641.0 | 2092.0 | 
+| submersible | 2626.0 | 227.0 | 1911.0 | 
+| mono | 1082.0 | 129.0 | 1654.0 | 
 
 #### Which type of pump serves the highest average number of people?
 
 #### Table 3 | Popuation Per Pump Type
-extraction_type | population per pump
+| extraction_type | population per pump |
 | :----: | :----: |
-windmill | 408.358974
-india mark iii | 378.112245
-other - play pump | 343.082353
-submersible | 324.308564
-india mark ii | 298.967083
-afridev | 249.866102
-other - rope pump | 214.128603
-other | 209.885381
-swn 80 | 205.832970
-gravity | 148.117065
+| windmill | 408.358974 |
+| india mark iii | 378.112245 |
+| other - play pump | 343.082353 |
+| submersible | 324.308564 |
+| india mark ii | 298.967083 |
+| afridev | 249.866102 |
+| other - rope pump | 214.128603 |
+| other | 209.885381 |
+| swn 80 | 205.832970 |
+| gravity | 148.117065 |
 
 
 
@@ -91,13 +91,13 @@ gravity | 148.117065
 There are a total of 7 feature columns with missing data which have to be dealt with. Luckily, all 7 of these feature columns are categorical of `object` pandas datatypes. None of the numerical columns have missing values. The missing categorical values are dealth with automatically when converting those features into dummy variables. Dummy variable conversion is necessary when working with categorical text data since training any model requires numerical datatypes. This method changes each unique value in the categorical feature column into its own binary column. An example is shown below where all missing values for the `waterpoint_type_group` feature are combined into a single binary feature column `waterpoint_type_group_nan`
 
 #### Table 4 | Sample of Categorical Dummy Variables
-id | date_recorded | funder_0 | ... | waterpoint_type_group_nan
+| id | date_recorded | funder_0 | ... | waterpoint_type_group_nan |
 | :----: | :----: | :----: | :----: |
-69572 | 2011-03-14 | 0 | ... | 0
-8776 | 2013-03-06 | 0 | ... | 0	
-34310 | 2013-02-25 | 0 | ... | 0	
-67743 | 2013-01-28 | 0 | ... | 0
-19728 | 2011-07-13 | 0 | ... | 0
+| 69572 | 2011-03-14 | 0 | ... | 0 |
+| 8776 | 2013-03-06 | 0 | ... | 0 |
+| 34310 | 2013-02-25 | 0 | ... | 0 |
+| 67743 | 2013-01-28 | 0 | ... | 0 |
+| 19728 | 2011-07-13 | 0 | ... | 0 |
 
 Some of the feature columns are either duplicates or derived from other feature columns and getting rid of these will help reduce the total number of features. The features that were dropped from the dataset were:
 
@@ -111,22 +111,22 @@ Some of the feature columns are either duplicates or derived from other feature 
 I first created a logistc regression model to compare the performance of a random forest model to. I used a Bayesion optimization algorithm to find the optimal value of the regularization parameter C and obtained the results below.
 
 #### Table 5 | Results of Optimized Logistic Regression Model
-functional | functional needs repair | non functional
+| functional | functional needs repair | non functional |
 | :----: | :----: | :----: |
-precision | 0.721376 | 0.154448 | 0.638251
-recall | 0.561340 | 0.526316 | 0.548136
-f1-score | 0.631375 | 0.238815 | 0.589771
-classification_rate | 0.553770 | 0.553770 | 0.553770
+| precision | 0.721376 | 0.154448 | 0.638251 |
+| recall | 0.561340 | 0.526316 | 0.548136 |
+| f1-score | 0.631375 | 0.238815 | 0.589771 |
+| classification_rate | 0.553770 | 0.553770 | 0.553770 |
 
 The classification rate is simply defined as the overall accuracy of the model and is what the drivendata competition used to score submissions. 
 
 #### Table 6 | Results of Optimized Random Forest Model
-functional | functional needs repair | non functional
+| functional | functional needs repair | non functional |
 | :----: | :----: | :----: |
-precision | 0.813756 | 0.576444 | 0.841199
-recall | 0.891874 | 0.357193 | 0.786270
-f1-score | 0.851026 | 0.441075 | 0.812808
-classification_rate | 0.812825 | 0.812825 | 0.812825
+| precision | 0.813756 | 0.576444 | 0.841199 |
+| recall | 0.891874 | 0.357193 | 0.786270 |
+| f1-score | 0.851026 | 0.441075 | 0.812808 |
+| classification_rate | 0.812825 | 0.812825 | 0.812825 |
 
 The precision-recall curves are plotted for both models in Figure 2 below.
 
