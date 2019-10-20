@@ -120,13 +120,9 @@ I introduced one new engineered feature by computing the number of years between
 
 To evaluate the performance of my models, I chose the precision, recall, and f1-score metrics. These are defined as follows:
 
-\begin{equation*}
-Precision = \frac{True Positive}{(True Positive + False Positive)}
-\end{equation*}
+$$Precision = \frac{True Positive}{(True Positive + False Positive)}$$
 
-\begin{equation*}
-Recall = \frac{True Positive}{(True Positive + False Negative)}
-\end{equation*}
+$$Recall = \frac{True Positive}{(True Positive + False Negative)}$$
 
 Logistic Regression models are popular for simple classification tasks due to their simplicity and ease of implementation. I first created a logistc regression model to compare the performance of a random forest model to. I used a Bayesion optimization algorithm to find the optimal value of the regularization parameter C and obtained the results below. 
 
