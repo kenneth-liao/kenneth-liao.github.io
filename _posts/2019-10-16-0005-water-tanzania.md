@@ -18,15 +18,15 @@ toc_sticky: "true"
 # Improving Access to Clean, Safe Drinking Water in Tanzania
 
 ## Motivation
-Tanzania is recognized by the UN as a least developed country, or LDC<sup>1</sup>. LDCs are, in part, defined by the UN as "low-income countries confronting severe structural impediments to sustainable development"<sup>2</sup>. One critical impediment the country has struggled with for decades has been supplying and maintaining access to clean and safe drinking water for Tanzanians. In 2017, a reported 24.8 million citizens lacked access to 'at least basic' water<sup>3</sup>. For those fortunate enough to have access to this mandatory resource at any given time, it is never gauranteed.
+Tanzania is recognized by the UN as a least developed country, or LDC<sup>1</sup>. LDCs are, in part, defined by the UN as "low-income countries confronting severe structural impediments to sustainable development"<sup>2</sup>. One critical impediment the country has struggled with for decades has been supplying and maintaining access to clean and safe drinking water for Tanzanians. In 2017, a reported 24.8 million citizens lacked access to 'at least basic' water<sup>3</sup>. For those fortunate enough to have access to this life-essential resource at any given time, it is never gauranteed.
 
-In most of the rural parts of the country, much of the potable water is accessed via water pumps that draw water from local sources. Around 60,000 hand-pumps are installed in sub-Saharan Africa every year, but between 30 to 40% of those do not function at anyone one time<sup>4</sup>! These non-functioning pumps have realized an estimated loss of 1.2 billion USD over the last 2 decades<sup>4</sup>. One of the biggest challenges with maintaining non-functioning pumps is identifying the pumps that are in need of repair or have completely broken down. Once the functional status of a pump has been identified, the appropriate resources and man-power can be deployed to target sites in need of repair or replacement. Unfortunately, there is no efficient system to-date to tackle this monumental problem. The local governments and organizations tackling the water crisis simply do not possess enough time, resources, or man power to check every pump in the country. Identifying the functional status of these water pumps is therefore the focus of this work.
+In most of the rural parts of the country, much of the potable water is accessed via water pumps that draw water from local sources. Around 60,000 hand-pumps are installed in sub-Saharan Africa every year, but between 30 to 40% of those do not function at anyone one time<sup>4</sup>! These non-functioning pumps have realized an estimated loss of $1.2 billion USD over the last 2 decades<sup>4</sup>. One of the biggest challenges with maintaining non-functioning pumps is identifying the pumps that are in need of repair or have completely broken down. Once the functional status of a pump has been identified, the appropriate resources and man-power can be deployed to target sites in need of repair or replacement. Unfortunately, there is currently no efficient or accurate system to tackle this monumental problem. The local governments and organizations tackling the water crisis simply do not possess enough time, resources, or man power to check every pump in the country. Identifying the functional status of these water pumps is therefore critical to ensuring access to clean drinking water and is the focus of this work.
 
-Taarifa is an open-source platform for crowd-sourced reporting and triaging of infrastructure related issues. Together with the Tanzanian Ministry of Water, data has been collected for thousands of water pumps throughout Tanzania. The goal of this project is to be able to predict the condition of these water pumps to improve allocation of resources and pump maintenance, reduce pump downtime, and ensure basic water access for tens of millions of Tanzanians.
+The goal of this project is to be able to predict the functional status of water pumps in Tanzania to improve allocation of resources for pump maintenance, reduce pump downtime, and ensure basic water access for tens of millions of Tanzanians.
 
 ***The Data***
 
-The dataset is provided by Taarifa, together with the Tanzanian Ministry of Water and is hosted by DrivenData.org:
+Taarifa is an open-source platform for crowd-sourced reporting and triaging of infrastructure related issues. Together with the Tanzanian Ministry of Water, data has been collected for thousands of water pumps throughout Tanzania. The data is hosted as part of a competition by DrivenData.org:
 
 https://www.drivendata.org/competitions/7/pump-it-up-data-mining-the-water-table/page/23/
 
@@ -124,7 +124,11 @@ $$Precision = \frac{True Positive}{(True Positive + False Positive)}$$
 
 $$Recall = \frac{True Positive}{(True Positive + False Negative)}$$
 
-Logistic Regression models are popular for simple classification tasks due to their simplicity and ease of implementation. I first created a logistc regression model to compare the performance of a random forest model to. I used a Bayesion optimization algorithm to find the optimal value of the regularization parameter C and obtained the results below. 
+$$F1 = \frac{2 * (Precision * Recall)}{(Precision + Recall)}$$
+
+Precisiona and recall are favored over the true positive, true negative rates, and ROC curves when there is a significant class imbalance, as in this case. The F1-score is the harmonic mean of precision and recall and gives us the ability compare a single combined metric from one model to another. 
+
+Logistic Regression models are popular for simple classification tasks due to their simplicity in both implementation and interpretation. I first created a logistc regression model to compare the performance of a random forest model to. I used a Bayesion optimization algorithm to find the optimal value of the regularization parameter C and obtained the results below. 
 
 #### Table 5 | Results of Optimized Logistic Regression Model
 <table style="width:100%">
@@ -137,9 +141,10 @@ Logistic Regression models are popular for simple classification tasks due to th
 
 In Table 5, precision, recall, and f1-score are calculated for each class in a 1 vs all fashion. The results are drastically different between classes. The precision was highest for the `functional` class (0.72) and lowest for the `functional needs repair` class (0.15). This isn't a surprise since the dataset has 32,000 `functional` samples to train on and only 4,300 samples of `functional needs repair`. In addition to the large class imbalance, the `functional needs repair` class may also just be intrinsically harder to predict given the same set of predictor variables.
 
-The recall scores are very similar between all 3 classes. 
+The recall scores are very similar between all 3 classes. The results imply that the model varies widely in the number of false positives between classes but is relatively equal in the number of false negatives between classes.
 
-The classification rate is simply defined as the overall accuracy of the model and is what the DrivenData competition used to score submissions. 
+The classification rate is simply defined as the overall accuracy of the model and is what the DrivenData competition used to score submissions. The classification rate for this model is 55.4% so we have an average of 55.4% accuracy in predicting each class correctly.
+
 
 #### Table 6 | Results of Optimized Random Forest Model
 <table style="width:100%">
@@ -150,12 +155,13 @@ The classification rate is simply defined as the overall accuracy of the model a
 <tr><td  style="text-align:center">classification_rate</td><td  style="text-align:center">0.812825</td></tr>
 </table>
 
+The results for the optimized random forest model are summarized in Table 6 above. The random forest model clearly outperforms the logistic regression model. The overall classification rate went from 55.4% to 81.3%! Precision and recall improved significantly for the `functional` and `non functional` classes. Precision also improved for the `funtional needs repair` class at the expense of a lower recall. But the overall f1-scores for each class improved over previous values. 
 
 #### Figure 2 | Precision-Recall Curves
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <iframe width="100%" height="550" frameborder="0" scrolling="no" src="/images/0005-water-tanzania/precision_recall_combined.html"></iframe>
 
-
+The precision-recall curves for the `non functional` class are shown in Figure 2. To decide where we want to be on the curve, we need to consider the business problem we're trying to solve and the consequences of prioritizing precision over recall and vice versa. Having a high precision means we minimize false positives. This means we minimize misclassifications of `functional` pumps as being `non functional`. The consequences of misclassifying a `functional` pump is that we waste resources in deploying a repairman to the pump. However, the underlying assumption here is that there is currently no way to know a pump's functional status without actually deploying someone to physically check it, in which case we would have to physically check the status of every pump. 
 
 
 A spacial map of the three functional classes of pumps is shown in Figure 2 below.
