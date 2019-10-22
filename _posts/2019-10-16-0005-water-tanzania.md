@@ -175,7 +175,7 @@ The proportion of `non functional` pumps is assumed to be more or less constant 
 
 #### Figure 3 | Savings Calculator
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-<iframe width="100%" height="350" frameborder="0" scrolling="no" src="/images/0005-water-tanzania/savings-calculator.png"></iframe>
+<iframe width="100%" height="300" frameborder="0" scrolling="no" src="/images/0005-water-tanzania/savings-calculator.png"></iframe>
 
 An example of the calculator is shown in Figure 3. Assuming an organization is responsible for 10,000 pumps and there is an average cost of $50 to survey each pump (employee compensation, fuel, etc.), the organization could realize a savings of $96,000. The average price of a new Afridev or India Mark II pump is between $1,427-$1,585. The average cost of a new pump deployment including labor, digging, etc., is $3,800<sup>6</sup>. At this rate, the savings of $96,000 could be used to deploy 25 brand new pumps. This would be enough to support 7,500 people<sup>3</sup>!
 
