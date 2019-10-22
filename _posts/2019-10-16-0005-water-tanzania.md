@@ -35,7 +35,7 @@ https://www.drivendata.org/competitions/7/pump-it-up-data-mining-the-water-table
 
 #### Figure 1 | Pump Status Classes
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-<iframe width="100%" height="550" frameborder="0" scrolling="no" src="/images/0005-water-tanzania/pump-conditions.html"></iframe>
+<iframe width="100%" frameborder="0" scrolling="no" src="/images/0005-water-tanzania/pump-conditions.html"></iframe>
 
 #### What is the most common type of pump?
 
@@ -141,7 +141,7 @@ Logistic Regression models are popular for simple classification tasks due to th
 <tr><td  style="text-align:center">precision</td><td style="text-align:center">0.721376</td><td style="text-align:center">0.154448</td><td style="text-align:center">0.638251</td></tr>
 <tr><td  style="text-align:center">recall</td><td style="text-align:center">0.561340</td><td style="text-align:center">0.526316</td><td  style="text-align:center">0.548136</td></tr>
 <tr><td  style="text-align:center">f1-score</td><td style="text-align:center">0.631375</td><td style="text-align:center">0.238815</td><td  style="text-align:center">0.589771</td></tr>
-<tr><td  style="text-align:center">classification_rate</td><td  style="text-align:center"; colspan="3">0.553770</td></tr>
+<tr><td  style="text-align:center">classification_rate</td><td  style="text-align:center">0.553770</td></tr>
 </table>
 
 In Table 5, precision, recall, and f1-score are calculated for each class in a 1 vs all fashion. The results are drastically different between classes. The precision was highest for the `functional` class (0.72) and lowest for the `functional needs repair` class (0.15). This isn't a surprise since the dataset has 32,000 `functional` samples to train on and only 4,300 samples of the `functional needs repair` class. In addition to the large class imbalance, the `functional needs repair` class may simply be intrinsically harder to predict given the same set of predictor variables.
@@ -156,14 +156,14 @@ The classification rate is simply defined as the overall accuracy of the model a
 <tr><td  style="text-align:center">precision</td><td  style="text-align:center">0.813756</td><td  style="text-align:center">0.576444</td><td  style="text-align:center">0.841199</td></tr>
 <tr><td  style="text-align:center">recall</td><td  style="text-align:center">0.891874</td><td  style="text-align:center">0.357193</td><td  style="text-align:center">0.786270</td></tr>
 <tr><td  style="text-align:center">f1-score</td><td  style="text-align:center">0.851026</td><td  style="text-align:center">0.441075</td><td  style="text-align:center">0.812808</td></tr>
-<tr><td  style="text-align:center">classification_rate</td><td  style="text-align:center"; colspan="3">0.812825</td></tr>
+<tr><td  style="text-align:center">classification_rate</td><td  style="text-align:center">0.812825</td></tr>
 </table>
 
 The results for an optimized random forest model are summarized in Table 6. The random forest model clearly outperforms the logistic regression model. The overall classification rate went from 55.4% to 81.3%! Precision and recall improved significantly for the `functional` and `non functional` classes. Precision also improved for the `funtional needs repair` class, but at the expense of a lower recall. The overall f1-scores for each class improved over previous values so we can confidently say this model works better than logistic regression for this specific problem. 
 
 #### Figure 2 | Precision-Recall for Non Functional Class
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-<iframe width="100%" height="550" frameborder="0" scrolling="no" src="/images/0005-water-tanzania/precision_recall_combined.html"></iframe>
+<iframe width="100%" frameborder="0" scrolling="no" src="/images/0005-water-tanzania/precision_recall_combined.html"></iframe>
 
 The precision-recall curves for the `non functional` class are shown in Figure 2. To decide where along the curve we want to operate, we need to consider the business problem we're trying to solve and the consequences of prioritizing precision over recall and vice versa. Having a high precision means we minimize false positives. In the case of the `non functional` class, false positives are misclassifications of `functional` pumps as being `non functional`. The consequence of misclassifying a `functional` pump is that we waste resources in deploying a materials and a repairman to the pump. However, the underlying assumption here is that there is currently no way to know a pump's functional status without actually deploying someone to physically check it, in which case we would have to physically check the status of every pump. So if we can reduce the number of pumps we have to check, we are already better than the baseline. For example, a precision of 50% implies that for every 2 pumps that we check, we can be sure that at least one of them is `non functional`, thus warranting our deployment of resources for a replacement.
 
@@ -171,27 +171,27 @@ In order to maximize recall, false negatives must be minimized. False negatives 
 
 I would like to argue that the critical metric we want to maximize is the recall of the `non functional` class. If a `non functional` pump is misclassified, an effort will not be made to replace the broken down pump and hundreds of people can go without that water source for weeks or even months. They would likely be forced to find other sources of water which could be less sanitary or much farther away. On the otherhand, the consequences of misclassifying a `functional` or `functional needs repair` are not critical to human life.
 
-#### A Case Study
+### A Case Study
 
 Ultimately, the Tanzanian Water of Ministry and local organizations employing this research will have to decide how they want to balance the precision and recall of this model. Let's assume we want to maintain a recall of 95%. This means that for every 100 `non functional` pumps, we will only misclassify 5 of them. From Figure 2 we can see that a 95% recall corresponds to a 50% precision. Let's use these figures along with the actual number of `functional` and `non functional` pumps in the dataset to come up with some numbers.
 
 In the full training dataset, there are 22,824 `non functional` pumps out of a total of 59,400 pumps. With a recall of 95%, we would correctly classify 21,683 pumps and only misclassify 1,195 pumps. Since the precision will be locked to 50% for our chosen recall, we would have to deploy replacement resources to double the total number of `non functional` pumps in order to achieve a 95% recall, or 45,648 pumps. Compare this to the current state in which the status of a pump can only be known by physically checking each pump. Assuming the chance of encountering a `non functional` pump is equal to the proportion of `non functional` pumps, 56,466 out of the 59,400 pumps would have to be physically checked to match the number of `non functional` pumps that this model correctly identifies. The model would thus reduce the number of pumps that have to be checked by 10,818 in this sample, which corresponds to a 19.2% savings in time, money, and manpower!
 
-#### Empowering Communities
+### Savings Calculator
 
-We assume the proportion of `non functional` pumps is more or less constant across Tanzania, and even sub-saharan Africa as reported in the literature. We've developed a simple excel sheet calculator for determining the savings this model can offer over the current state of needing to survey every pump's functional status. The calculator can be access at the following link:
+The proportion of `non functional` pumps is assumed to be more or less constant across Tanzania and more broadly across sub-saharan Africa, as reported in the literature<sup>4</sup>. I've developed a simple excel sheet calculator for determining the savings this model can offer over the current state of needing to survey every pump's functional status. The `savings_calculator.xls` can be accessed from the home repository <a href='https://github.com/Kennfucius/water_pumps_tanzania'>here</a>.
 
 #### Figure 3 | Savings Calculator
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-<iframe width="100%" height="550" frameborder="0" scrolling="no" src="/images/0005-water-tanzania/savings-calculator.png"></iframe>
+<iframe width="100%" frameborder="0" scrolling="no" src="/images/0005-water-tanzania/savings-calculator.png"></iframe>
+
+An example of the calculator is shown in Figure 3. Assuming an organization is responsible for 10,000 pumps and there is an average cost of $50 to survey each pump (employee compensation, fuel, etc.), the organization could realize a savings of $96,000. The average price of a new Afridev or India Mark II pump is between $1,427-$1,585. The average cost of a new pump deployment including labor, digging, etc., is $3,800<sup>6</sup>. At this rate, the savings of $96,000 could be used to deploy 25 brand new pumps. This would be enough to support 7,500 people<sup>3</sup>!
 
 ## Conclusions
 
-I trained both a Logistic Regression and a Random Forest model to classify water pumps as "functional", "function needs repair", and non functional. I used a Bayesion optimization model to find the best parameters for the models. There was a stark difference in the performance of the two models, with the Random Forest model completely outperforming the Logistic Regression model. The Random Forest model achieved a classification rate of 0.813 on the test set while the Logistic Regression model achieved a classfication rate of only 0.554.
+I designed a random forest classification model to predict the functional status of water pumps in Tanzania. I employed a Bayesion optimization algorithm to tune the hyperparameters. The model achieved a precision of 0.84 and a recall of 0.79 on a test dataset, while the overall classification rate was 0.81. Using the proportion of `non functional` pumps in this sample, I computed an average savings in resources of 19.2% over the current state. This savings could be used to deploy additional pump replacements in places with critical need. I also created a simple calculator to help organization involved in tackling the water crisis to estimate the savings they could realize if employing the model presented in this work.
 
-While I didn't hypertune the model to specifically focus on improving the recall score for accurately predicting "non functional" pumps, the optimized model had overall better results for both precision and recall since I used the weighted f1_score as the loss function. The Random Forest model would highly benefit the Tanzanian water of ministry and aid the organization in deployed constrained resources and man power to the pumps that need it most, with much higher accuracy than before.
-
-As a motivation for follow up work, I think the model would benefit from minimizing the overfitting indicated by the large difference in the train and test scores. Further exploration and understanding of the most important features of the model is also desirable. Finally, introducing additional engineered features that perhaps underly the top important features such as indicators for when a water source will be dry would likely improve the model vastly.
+Finally, I explored several interesting questions in the EDA section that motivate the engineering of new features. For example, I computed that the `mono` pump type is `non functional` 57.7% of the time while the nira/tanira pumps are `non functional` only 25.7% of the time. I also showed that the average population served by each pump type can vary anywhere between 148 and 408 people. These important factors related to each pump type may significantly contribute to the model's predictive power. This is left for future work.
 
 ## References
 
