@@ -28,14 +28,14 @@ The problem statement can be phrased as follows. Data exists for tens of thousan
 
 Taarifa is an open-source platform for crowd-sourced reporting and triaging of infrastructure related issues. Together with the Tanzanian Ministry of Water, data has been collected for thousands of water pumps throughout Tanzania. The data is hosted as part of a competition by DrivenData.org:
 
-https://www.drivendata.org/competitions/7/pump-it-up-data-mining-the-water-table/page/23/
+<a href="https://www.drivendata.org/competitions/7/pump-it-up-data-mining-the-water-table/page/23/">https://www.drivendata.org/competitions/7/pump-it-up-data-mining-the-water-table/page/23/</a>
 
 ## EDA
 59,400 unique water pumps described by 39 features comprise the dataset. Each water pump is represented exactly once in the dataset and thus the shape of the training data is 59,400x39. Figure 1 below illustrates the large class imbalance with the following breakdown: 54.3% - functional, 7.3% - functional but require repair, 38.4% - non functional. This stratification had to be taken into account when creating train/test splits.
 
 #### Figure 1 | Pump Status Classes
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-<iframe width="100%" frameborder="0" scrolling="no" src="/images/0005-water-tanzania/pump-conditions.html"></iframe>
+<iframe width="100%" height=500 frameborder="0" scrolling="no" src="/images/0005-water-tanzania/pump-conditions.html"></iframe>
 
 #### What is the most common type of pump?
 
@@ -89,14 +89,6 @@ The average population for each pump type is summarized in Table 3. This factor 
 <tr><td  style="text-align:center">swn 80</td><td  style="text-align:center">206</td></tr>
 <tr><td  style="text-align:center">gravity</td><td  style="text-align:center">148</td></tr>
 </table>
-
-
-A spacial map of the three functional classes of pumps is shown in Figure 2 below.
-
-#### Figure 3 | 
-<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-<iframe width="100%" height="550" frameborder="0" scrolling="no" src="/images/0005-water-tanzania/status_group_map.html"></iframe>
-
 
 ## Data Wrangling
 
@@ -163,7 +155,7 @@ The results for an optimized random forest model are summarized in Table 6. The 
 
 #### Figure 2 | Precision-Recall for Non Functional Class
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-<iframe width="100%" frameborder="0" scrolling="no" src="/images/0005-water-tanzania/precision_recall_combined.html"></iframe>
+<iframe width="100%" height=600 frameborder="0" scrolling="no" src="/images/0005-water-tanzania/precision_recall_combined.html"></iframe>
 
 The precision-recall curves for the `non functional` class are shown in Figure 2. To decide where along the curve we want to operate, we need to consider the business problem we're trying to solve and the consequences of prioritizing precision over recall and vice versa. Having a high precision means we minimize false positives. In the case of the `non functional` class, false positives are misclassifications of `functional` pumps as being `non functional`. The consequence of misclassifying a `functional` pump is that we waste resources in deploying a materials and a repairman to the pump. However, the underlying assumption here is that there is currently no way to know a pump's functional status without actually deploying someone to physically check it, in which case we would have to physically check the status of every pump. So if we can reduce the number of pumps we have to check, we are already better than the baseline. For example, a precision of 50% implies that for every 2 pumps that we check, we can be sure that at least one of them is `non functional`, thus warranting our deployment of resources for a replacement.
 
@@ -183,7 +175,7 @@ The proportion of `non functional` pumps is assumed to be more or less constant 
 
 #### Figure 3 | Savings Calculator
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-<iframe width="100%" frameborder="0" scrolling="no" src="/images/0005-water-tanzania/savings-calculator.png"></iframe>
+<iframe width="100%" height=350 frameborder="0" scrolling="no" src="/images/0005-water-tanzania/savings-calculator.png"></iframe>
 
 An example of the calculator is shown in Figure 3. Assuming an organization is responsible for 10,000 pumps and there is an average cost of $50 to survey each pump (employee compensation, fuel, etc.), the organization could realize a savings of $96,000. The average price of a new Afridev or India Mark II pump is between $1,427-$1,585. The average cost of a new pump deployment including labor, digging, etc., is $3,800<sup>6</sup>. At this rate, the savings of $96,000 could be used to deploy 25 brand new pumps. This would be enough to support 7,500 people<sup>3</sup>!
 
