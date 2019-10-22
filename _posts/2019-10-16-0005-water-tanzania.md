@@ -20,7 +20,7 @@ toc_sticky: "true"
 ## Motivation
 Tanzania is recognized by the UN as a least developed country, or LDC<sup>1</sup>. LDCs are, in part, defined by the UN as "low-income countries confronting severe structural impediments to sustainable development"<sup>2</sup>. One critical impediment the country has struggled with for decades has been supplying and maintaining access to clean and safe drinking water for Tanzanians. In 2017, a reported 24.8 million citizens lacked access to 'at least basic' water<sup>3</sup>. For those fortunate enough to have access to this life-essential resource at any given time, it is never gauranteed.
 
-In most of the rural parts of the country, much of the potable water is accessed via water pumps that draw water from local sources. Around 60,000 hand-pumps are installed in sub-Saharan Africa every year, but between 30 to 40% of those do not function at anyone one time<sup>4</sup>! These non-functioning pumps have realized an estimated loss of $1.2 billion USD over the last 2 decades<sup>4</sup>. One of the biggest challenges with maintaining non-functioning pumps is identifying the pumps that are in need of repair or have completely broken down. Once the functional status of a pump has been identified, the appropriate resources and man-power can be deployed to target sites in need of repair or replacement. Unfortunately, there is currently no efficient or accurate system to tackle this monumental problem. Local governments and organizations tackling the water crisis simply do not possess enough time, resources, or man-power to check every pump in the country. Identifying the functional status of these water pumps is therefore critical to ensuring access to clean drinking water and is the focus of this work.
+In most of the rural parts of the country, much of the potable water is accessed via water pumps that draw water from local sources. Around 60,000 hand-pumps are installed in sub-Saharan Africa every year, but between 30 to 40% of those do not function at anyone one time<sup>4</sup>! These non-functioning pumps have realized an estimated loss of $1.2 billion USD over the last 2 decades<sup>4</sup>. One of the biggest challenges with maintaining non-functioning pumps is identifying the pumps that are in need of repair or have completely broken down. Once the functional status of a pump has been identified, the appropriate resources and man-power can be deployed to target sites in need of repair or replacement. Unfortunately, there is currently no efficient or accurate system to tackle this monumental problem. Local governments and organizations battling the water crisis simply do not possess enough time, resources, or man-power to check every pump in the country. Identifying the functional status of these water pumps is therefore critical to ensuring access to clean drinking water and is the focus of this work.
 
 The problem statement can be phrased as follows. Data exists for tens of thousands of pumps which are assumed to be functional, but we don't actually know until someone is sent out to physically check the pump's status. Rather than physically checking every pump, can we predict with some accuracy better than random, which pumps will be functional and which will be non functional? Thus, the goal of this project is to be able to predict the functional status of water pumps in Tanzania to improve allocation of resources for pump maintenance, reduce pump downtime, and ensure basic water access for tens of millions of Tanzanians.
 
@@ -91,6 +91,13 @@ The average population for each pump type is summarized in Table 3. This factor 
 </table>
 
 
+A spacial map of the three functional classes of pumps is shown in Figure 2 below.
+
+#### Figure 3 | 
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<iframe width="100%" height="550" frameborder="0" scrolling="no" src="/images/0005-water-tanzania/status_group_map.html"></iframe>
+
+
 ## Data Wrangling
 
 There are a total of 7 feature columns with missing data which have to be dealt with. Luckily, all 7 of these feature columns are categorical of `object` pandas datatypes: none of the numerical columns have missing values. The missing categorical values are dealth with automatically when converting those features into dummy variables. Dummy variable conversion is necessary when working with categorical text data since training any model requires numerical datatypes. This method changes each unique value in the categorical feature column into its own binary column. An example is shown below where all missing values for the `waterpoint_type_group` feature are combined into a single binary feature column `waterpoint_type_group_nan`
@@ -124,7 +131,7 @@ $$Recall = \frac{True Positive}{(True Positive + False Negative)}$$
 
 $$F1 = \frac{2 * (Precision * Recall)}{(Precision + Recall)}$$
 
-Precisiona and recall are favored over the true positive, true negative rates, and ROC curves when there is a significant class imbalance, as in this case. The F1-score is the harmonic mean of precision and recall and gives us the ability compare a single combined metric from one model to another. 
+Precisiona and recall are favored over the true positive and true negative rates when there is a significant class imbalance, as in this case. The F1-score is the harmonic mean of precision and recall and gives us the ability compare a single metric for one model to another. 
 
 Logistic Regression models are popular for simple classification tasks due to their simplicity in both implementation and interpretation. I first created a logistc regression model to compare the performance of a random forest model to. I used a Bayesion optimization algorithm to find the optimal value of the regularization parameter C and obtained the results below. 
 
@@ -137,12 +144,11 @@ Logistic Regression models are popular for simple classification tasks due to th
 <tr><td  style="text-align:center">classification_rate</td><td  style="text-align:center"; colspan="3">0.553770</td></tr>
 </table>
 
-In Table 5, precision, recall, and f1-score are calculated for each class in a 1 vs all fashion. The results are drastically different between classes. The precision was highest for the `functional` class (0.72) and lowest for the `functional needs repair` class (0.15). This isn't a surprise since the dataset has 32,000 `functional` samples to train on and only 4,300 samples of `functional needs repair`. In addition to the large class imbalance, the `functional needs repair` class may also just be intrinsically harder to predict given the same set of predictor variables.
+In Table 5, precision, recall, and f1-score are calculated for each class in a 1 vs all fashion. The results are drastically different between classes. The precision was highest for the `functional` class (0.72) and lowest for the `functional needs repair` class (0.15). This isn't a surprise since the dataset has 32,000 `functional` samples to train on and only 4,300 samples of the `functional needs repair` class. In addition to the large class imbalance, the `functional needs repair` class may simply be intrinsically harder to predict given the same set of predictor variables.
 
 The recall scores are very similar between all 3 classes. The results imply that the model varies widely in the number of false positives between classes but is relatively equal in the number of false negatives between classes.
 
-The classification rate is simply defined as the overall accuracy of the model and is what the DrivenData competition used to score submissions. The classification rate for this model is 55.4% so we have an average of 55.4% accuracy in predicting each class correctly.
-
+The classification rate is simply defined as the overall accuracy of the model and is what the DrivenData competition uses to score submissions. The classification rate for this model is 55.4%, so we have an average of 55.4% accuracy in predicting each class correctly.
 
 #### Table 6 | Results of Optimized Random Forest Model
 <table style="width:100%">
@@ -153,26 +159,33 @@ The classification rate is simply defined as the overall accuracy of the model a
 <tr><td  style="text-align:center">classification_rate</td><td  style="text-align:center"; colspan="3">0.812825</td></tr>
 </table>
 
-The results for the optimized random forest model are summarized in Table 6 above. The random forest model clearly outperforms the logistic regression model. The overall classification rate went from 55.4% to 81.3%! Precision and recall improved significantly for the `functional` and `non functional` classes. Precision also improved for the `funtional needs repair` class at the expense of a lower recall. But the overall f1-scores for each class improved over previous values. 
+The results for an optimized random forest model are summarized in Table 6. The random forest model clearly outperforms the logistic regression model. The overall classification rate went from 55.4% to 81.3%! Precision and recall improved significantly for the `functional` and `non functional` classes. Precision also improved for the `funtional needs repair` class, but at the expense of a lower recall. The overall f1-scores for each class improved over previous values so we can confidently say this model works better than logistic regression for this specific problem. 
 
 #### Figure 2 | Precision-Recall for Non Functional Class
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <iframe width="100%" height="550" frameborder="0" scrolling="no" src="/images/0005-water-tanzania/precision_recall_combined.html"></iframe>
 
-The precision-recall curves for the `non functional` class are shown in Figure 2. To decide where we want to be on the curve, we need to consider the business problem we're trying to solve and the consequences of prioritizing precision over recall and vice versa. Having a high precision means we minimize false positives. In the case of the `non functional` class, false positives are misclassifications of `functional` pumps as being `non functional`. The consequence of misclassifying a `functional` pump is that we waste resources in deploying a materials and a repairman to the pump. However, the underlying assumption here is that there is currently no way to know a pump's functional status without actually deploying someone to physically check it, in which case we would have to physically check the status of every pump. So if we can reduce the number of pumps we have to check, we are already better than the baseline. For example, a precision of 50% implies that for every 2 pumps that we check, we can be sure that at least one of them is `non functional`.
+The precision-recall curves for the `non functional` class are shown in Figure 2. To decide where along the curve we want to operate, we need to consider the business problem we're trying to solve and the consequences of prioritizing precision over recall and vice versa. Having a high precision means we minimize false positives. In the case of the `non functional` class, false positives are misclassifications of `functional` pumps as being `non functional`. The consequence of misclassifying a `functional` pump is that we waste resources in deploying a materials and a repairman to the pump. However, the underlying assumption here is that there is currently no way to know a pump's functional status without actually deploying someone to physically check it, in which case we would have to physically check the status of every pump. So if we can reduce the number of pumps we have to check, we are already better than the baseline. For example, a precision of 50% implies that for every 2 pumps that we check, we can be sure that at least one of them is `non functional`, thus warranting our deployment of resources for a replacement.
 
-In order to maximize recall, false negatives must be minimized. False negatives in the case of the `non functional` class occur when a `non functional` pump is classified as either `functional` or `functional needs repair`. Both of these misclassifications implies the pump is still working and is not in immediate need of replacement. This puts local populations at the greatest risk. 
+In order to maximize recall, false negatives must be minimized. False negatives in the case of the `non functional` class occur when a `non functional` pump is classified as either `functional` or `functional needs repair`. Both of these misclassifications implies the pump is still working and is not in immediate need of replacement.
 
+I would like to argue that the critical metric we want to maximize is the recall of the `non functional` class. If a `non functional` pump is misclassified, an effort will not be made to replace the broken down pump and hundreds of people can go without that water source for weeks or even months. They would likely be forced to find other sources of water which could be less sanitary or much farther away. On the otherhand, the consequences of misclassifying a `functional` or `functional needs repair` are not critical to human life.
 
-A spacial map of the three functional classes of pumps is shown in Figure 2 below.
+#### A Case Study
 
-#### Figure 3 | 
+Ultimately, the Tanzanian Water of Ministry and local organizations employing this research will have to decide how they want to balance the precision and recall of this model. Let's assume we want to maintain a recall of 95%. This means that for every 100 `non functional` pumps, we will only misclassify 5 of them. From Figure 2 we can see that a 95% recall corresponds to a 50% precision. Let's use these figures along with the actual number of `functional` and `non functional` pumps in the dataset to come up with some numbers.
+
+In the full training dataset, there are 22,824 `non functional` pumps out of a total of 59,400 pumps. With a recall of 95%, we would correctly classify 21,683 pumps and only misclassify 1,195 pumps. Since the precision will be locked to 50% for our chosen recall, we would have to deploy replacement resources to double the total number of `non functional` pumps in order to achieve a 95% recall, or 45,648 pumps. Compare this to the current state in which the status of a pump can only be known by physically checking each pump. Assuming the chance of encountering a `non functional` pump is equal to the proportion of `non functional` pumps, 56,466 out of the 59,400 pumps would have to be physically checked to match the number of `non functional` pumps that this model correctly identifies. The model would thus reduce the number of pumps that have to be checked by 10,818 in this sample, which corresponds to a 19.2% savings in time, money, and manpower!
+
+#### Empowering Communities
+
+We assume the proportion of `non functional` pumps is more or less constant across Tanzania, and even sub-saharan Africa as reported in the literature. We've developed a simple excel sheet calculator for determining the savings this model can offer over the current state of needing to survey every pump's functional status. The calculator can be access at the following link:
+
+#### Figure 3 | Savings Calculator
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-<iframe width="100%" height="550" frameborder="0" scrolling="no" src="/images/0005-water-tanzania/status_group_map.html"></iframe>
-
+<iframe width="100%" height="550" frameborder="0" scrolling="no" src="/images/0005-water-tanzania/savings-calculator.png"></iframe>
 
 ## Conclusions
-Two common pumps are the Afridev ($1,427) and the India Mark II ($1,585). Installing a new pump incurs additional costs for digging the whole, building a housing for the pump, and labor. It's estimated that an average pump installation costs around $3,800 USD, including the pump<sup>6</sup>.  
 
 I trained both a Logistic Regression and a Random Forest model to classify water pumps as "functional", "function needs repair", and non functional. I used a Bayesion optimization model to find the best parameters for the models. There was a stark difference in the performance of the two models, with the Random Forest model completely outperforming the Logistic Regression model. The Random Forest model achieved a classification rate of 0.813 on the test set while the Logistic Regression model achieved a classfication rate of only 0.554.
 
