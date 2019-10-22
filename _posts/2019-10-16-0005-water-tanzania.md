@@ -11,7 +11,7 @@ mathjax: "true"
 # This sets the table of contents on the right of the page
 toc: true
 toc_label: "Table of Contents"
-toc_icon: "chart-line"
+toc_icon: "opacity"
 toc_sticky: "true"
 ---
 
@@ -20,9 +20,9 @@ toc_sticky: "true"
 ## Motivation
 Tanzania is recognized by the UN as a least developed country, or LDC<sup>1</sup>. LDCs are, in part, defined by the UN as "low-income countries confronting severe structural impediments to sustainable development"<sup>2</sup>. One critical impediment the country has struggled with for decades has been supplying and maintaining access to clean and safe drinking water for Tanzanians. In 2017, a reported 24.8 million citizens lacked access to 'at least basic' water<sup>3</sup>. For those fortunate enough to have access to this life-essential resource at any given time, it is never gauranteed.
 
-In most of the rural parts of the country, much of the potable water is accessed via water pumps that draw water from local sources. Around 60,000 hand-pumps are installed in sub-Saharan Africa every year, but between 30 to 40% of those do not function at anyone one time<sup>4</sup>! These non-functioning pumps have realized an estimated loss of $1.2 billion USD over the last 2 decades<sup>4</sup>. One of the biggest challenges with maintaining non-functioning pumps is identifying the pumps that are in need of repair or have completely broken down. Once the functional status of a pump has been identified, the appropriate resources and man-power can be deployed to target sites in need of repair or replacement. Unfortunately, there is currently no efficient or accurate system to tackle this monumental problem. The local governments and organizations tackling the water crisis simply do not possess enough time, resources, or man power to check every pump in the country. Identifying the functional status of these water pumps is therefore critical to ensuring access to clean drinking water and is the focus of this work.
+In most of the rural parts of the country, much of the potable water is accessed via water pumps that draw water from local sources. Around 60,000 hand-pumps are installed in sub-Saharan Africa every year, but between 30 to 40% of those do not function at anyone one time<sup>4</sup>! These non-functioning pumps have realized an estimated loss of $1.2 billion USD over the last 2 decades<sup>4</sup>. One of the biggest challenges with maintaining non-functioning pumps is identifying the pumps that are in need of repair or have completely broken down. Once the functional status of a pump has been identified, the appropriate resources and man-power can be deployed to target sites in need of repair or replacement. Unfortunately, there is currently no efficient or accurate system to tackle this monumental problem. Local governments and organizations tackling the water crisis simply do not possess enough time, resources, or man-power to check every pump in the country. Identifying the functional status of these water pumps is therefore critical to ensuring access to clean drinking water and is the focus of this work.
 
-The goal of this project is to be able to predict the functional status of water pumps in Tanzania to improve allocation of resources for pump maintenance, reduce pump downtime, and ensure basic water access for tens of millions of Tanzanians.
+The problem statement can be phrased as follows. Data exists for tens of thousands of pumps which are assumed to be functional, but we don't actually know until someone is sent out to physically check the pump's status. Rather than physically checking every pump, can we predict with some accuracy better than random, which pumps will be functional and which will be non functional? Thus, the goal of this project is to be able to predict the functional status of water pumps in Tanzania to improve allocation of resources for pump maintenance, reduce pump downtime, and ensure basic water access for tens of millions of Tanzanians.
 
 ***The Data***
 
@@ -43,7 +43,7 @@ The top 10 types of pumps are shown in Table 1. The majority of pumps use gravit
 
 #### Table 1 | Pump Count by Pump Type
 <table style="width:100%">
-<tr><th>extraction_type</th><th>Pump Count</th></tr>
+<tr><th  style="text-align:center">extraction_type</th><th  style="text-align:center">Pump Count</th></tr>
 <tr><td  style="text-align:center">gravity</td><td  style="text-align:center">26780</td></tr>
 <tr><td  style="text-align:center">nira/tanira</td><td  style="text-align:center">8154</td></tr>
 <tr><td  style="text-align:center">other</td><td  style="text-align:center">6430</td></tr>
@@ -63,7 +63,7 @@ Table 2 shows that the number of non functional pumps within each pump type does
 #### Table 2 | Highest Non Functional Pump Counts
 
 <table style="width:100%">
-<tr><th>extraction_type</th><th>functional</th><th>functional needs repair</th><th>non functional</th><th>% non functional</th></tr>
+<tr><th  style="text-align:center">extraction_type</th><th>functional</th><th  style="text-align:center">functional needs repair</th><th  style="text-align:center">non functional</th><th  style="text-align:center">% non functional</th></tr>
 <tr><td  style="text-align:center">gravity</td><td  style="text-align:center">16048</td><td  style="text-align:center">2701</td><td  style="text-align:center">8031</td><td  style="text-align:center">30.0%</td></tr>
 <tr><td  style="text-align:center">other</td><td  style="text-align:center">1029</td><td  style="text-align:center">206</td><td  style="text-align:center">5195</td><td  style="text-align:center">80.8%</td></tr>
 <tr><td  style="text-align:center">nira/tanira</td><td  style="text-align:center">421</td><td  style="text-align:center">641</td><td  style="text-align:center">2092</td><td  style="text-align:center">25.7%</td></tr>
@@ -77,7 +77,7 @@ The average population for each pump type is summarized in Table 3. This factor 
 
 #### Table 3 | Popuation Per Pump Type
 <table style="width:100%">
-<tr><th>extraction_type</th><th>Population per pump</th></tr>
+<tr><th  style="text-align:center">extraction_type</th><th  style="text-align:center">Population per pump</th></tr>
 <tr><td  style="text-align:center">windmill</td><td  style="text-align:center">408</td></tr>
 <tr><td  style="text-align:center">india mark iii</td><td  style="text-align:center">378</td></tr>
 <tr><td  style="text-align:center">other - play pump</td><td  style="text-align:center">343</td></tr>
@@ -91,20 +91,19 @@ The average population for each pump type is summarized in Table 3. This factor 
 </table>
 
 
-## Data Munging
+## Data Wrangling
 
 There are a total of 7 feature columns with missing data which have to be dealt with. Luckily, all 7 of these feature columns are categorical of `object` pandas datatypes: none of the numerical columns have missing values. The missing categorical values are dealth with automatically when converting those features into dummy variables. Dummy variable conversion is necessary when working with categorical text data since training any model requires numerical datatypes. This method changes each unique value in the categorical feature column into its own binary column. An example is shown below where all missing values for the `waterpoint_type_group` feature are combined into a single binary feature column `waterpoint_type_group_nan`
 
 #### Table 4 | Sample of Categorical Dummy Variables
 <table style="width:100%">
-<tr><th>id</th><th>date_recorded</th><th>funder_0</th><th>...</th><th>waterpoint_type_group_nan</th></tr>
+<tr><th  style="text-align:center">id</th><th  style="text-align:center">date_recorded</th><th  style="text-align:center">funder_0</th><th  style="text-align:center">...</th><th  style="text-align:center">waterpoint_type_group_nan</th></tr>
 <tr><td  style="text-align:center">69572</td><td  style="text-align:center">2011-03-14</td><td  style="text-align:center">0</td><td  style="text-align:center">...</td><td  style="text-align:center">0</td></tr>
 <tr><td  style="text-align:center">8776</td><td  style="text-align:center">2013-03-06</td><td  style="text-align:center">0</td><td  style="text-align:center">...</td><td  style="text-align:center">0</td></tr>
 <tr><td  style="text-align:center">34310</td><td  style="text-align:center">2013-02-25</td><td  style="text-align:center">0</td><td  style="text-align:center">...</td><td  style="text-align:center">0</td></tr>
 <tr><td  style="text-align:center">67743</td><td  style="text-align:center">2013-01-28</td><td  style="text-align:center">0</td><td  style="text-align:center">...</td><td  style="text-align:center">0</td></tr>
 <tr><td  style="text-align:center">19728</td><td  style="text-align:center">2011-07-13</td><td  style="text-align:center">0</td><td  style="text-align:center">...</td><td  style="text-align:center">0</td></tr>
 </table>
-
 
 Some of the feature columns are either duplicates or derived from other feature columns and getting rid of these will help reduce the total number of features. The features that were dropped from the dataset were:
 
@@ -114,7 +113,6 @@ Some of the feature columns are either duplicates or derived from other feature 
 4. `quantity_group`
 
 I introduced one new engineered feature by computing the number of years between the pump's year of installation and the year that the datapoint was recorded. This is another feature I think will have good correlation to the predicted class since the build materials for the pump will degrade with time and weathering. 
-
 
 ## Results
 
@@ -132,11 +130,11 @@ Logistic Regression models are popular for simple classification tasks due to th
 
 #### Table 5 | Results of Optimized Logistic Regression Model
 <table style="width:100%">
-<tr><th>metric</th><th>functional</th><th>functional needs repair</th><th>non functional</th></tr>
+<tr><th  style="text-align:center">metric</th><th  style="text-align:center">functional</th><th  style="text-align:center">functional needs repair</th><th  style="text-align:center">non functional</th></tr>
 <tr><td  style="text-align:center">precision</td><td style="text-align:center">0.721376</td><td style="text-align:center">0.154448</td><td style="text-align:center">0.638251</td></tr>
 <tr><td  style="text-align:center">recall</td><td style="text-align:center">0.561340</td><td style="text-align:center">0.526316</td><td  style="text-align:center">0.548136</td></tr>
 <tr><td  style="text-align:center">f1-score</td><td style="text-align:center">0.631375</td><td style="text-align:center">0.238815</td><td  style="text-align:center">0.589771</td></tr>
-<tr><td  style="text-align:center">classification_rate</td><td  style="text-align:center">0.553770</td></tr>
+<tr><td  style="text-align:center">classification_rate</td><td  style="text-align:center"; colspan="3">0.553770</td></tr>
 </table>
 
 In Table 5, precision, recall, and f1-score are calculated for each class in a 1 vs all fashion. The results are drastically different between classes. The precision was highest for the `functional` class (0.72) and lowest for the `functional needs repair` class (0.15). This isn't a surprise since the dataset has 32,000 `functional` samples to train on and only 4,300 samples of `functional needs repair`. In addition to the large class imbalance, the `functional needs repair` class may also just be intrinsically harder to predict given the same set of predictor variables.
@@ -148,11 +146,11 @@ The classification rate is simply defined as the overall accuracy of the model a
 
 #### Table 6 | Results of Optimized Random Forest Model
 <table style="width:100%">
-<tr><th>metric</th><th>functional</th><th>functional needs repair</th><th>non functional</th></tr>
+<tr><th style="text-align:center">metric</th><th  style="text-align:center">functional</th><th  style="text-align:center">functional needs repair</th><th  style="text-align:center">non functional</th></tr>
 <tr><td  style="text-align:center">precision</td><td  style="text-align:center">0.813756</td><td  style="text-align:center">0.576444</td><td  style="text-align:center">0.841199</td></tr>
 <tr><td  style="text-align:center">recall</td><td  style="text-align:center">0.891874</td><td  style="text-align:center">0.357193</td><td  style="text-align:center">0.786270</td></tr>
 <tr><td  style="text-align:center">f1-score</td><td  style="text-align:center">0.851026</td><td  style="text-align:center">0.441075</td><td  style="text-align:center">0.812808</td></tr>
-<tr><td  style="text-align:center">classification_rate</td><td  style="text-align:center">0.812825</td></tr>
+<tr><td  style="text-align:center">classification_rate</td><td  style="text-align:center"; colspan="3">0.812825</td></tr>
 </table>
 
 The results for the optimized random forest model are summarized in Table 6 above. The random forest model clearly outperforms the logistic regression model. The overall classification rate went from 55.4% to 81.3%! Precision and recall improved significantly for the `functional` and `non functional` classes. Precision also improved for the `funtional needs repair` class at the expense of a lower recall. But the overall f1-scores for each class improved over previous values. 
@@ -161,7 +159,9 @@ The results for the optimized random forest model are summarized in Table 6 abov
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <iframe width="100%" height="550" frameborder="0" scrolling="no" src="/images/0005-water-tanzania/precision_recall_combined.html"></iframe>
 
-The precision-recall curves for the `non functional` class are shown in Figure 2. To decide where we want to be on the curve, we need to consider the business problem we're trying to solve and the consequences of prioritizing precision over recall and vice versa. Having a high precision means we minimize false positives. This means we minimize misclassifications of `functional` pumps as being `non functional`. The consequences of misclassifying a `functional` pump is that we waste resources in deploying a repairman to the pump. However, the underlying assumption here is that there is currently no way to know a pump's functional status without actually deploying someone to physically check it, in which case we would have to physically check the status of every pump. 
+The precision-recall curves for the `non functional` class are shown in Figure 2. To decide where we want to be on the curve, we need to consider the business problem we're trying to solve and the consequences of prioritizing precision over recall and vice versa. Having a high precision means we minimize false positives. In the case of the `non functional` class, false positives are misclassifications of `functional` pumps as being `non functional`. The consequence of misclassifying a `functional` pump is that we waste resources in deploying a materials and a repairman to the pump. However, the underlying assumption here is that there is currently no way to know a pump's functional status without actually deploying someone to physically check it, in which case we would have to physically check the status of every pump. So if we can reduce the number of pumps we have to check, we are already better than the baseline. For example, a precision of 50% implies that for every 2 pumps that we check, we can be sure that at least one of them is `non functional`.
+
+Maximizing recall amounts to minimizing false negatives. False negatives in the case of the `non functional` class are misclassified `non functional` pumps, or classifying a `non functional` pump as being either `functional` or `functional needs repair`. Both of these misclassifications implies the pump is still working and is not in immediate need of replacement. 
 
 
 A spacial map of the three functional classes of pumps is shown in Figure 2 below.
