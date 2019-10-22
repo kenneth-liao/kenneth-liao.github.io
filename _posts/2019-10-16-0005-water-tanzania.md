@@ -155,13 +155,13 @@ The classification rate is simply defined as the overall accuracy of the model a
 
 The results for the optimized random forest model are summarized in Table 6 above. The random forest model clearly outperforms the logistic regression model. The overall classification rate went from 55.4% to 81.3%! Precision and recall improved significantly for the `functional` and `non functional` classes. Precision also improved for the `funtional needs repair` class at the expense of a lower recall. But the overall f1-scores for each class improved over previous values. 
 
-#### Figure 2 | Precision-Recall Curves
+#### Figure 2 | Precision-Recall for Non Functional Class
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <iframe width="100%" height="550" frameborder="0" scrolling="no" src="/images/0005-water-tanzania/precision_recall_combined.html"></iframe>
 
 The precision-recall curves for the `non functional` class are shown in Figure 2. To decide where we want to be on the curve, we need to consider the business problem we're trying to solve and the consequences of prioritizing precision over recall and vice versa. Having a high precision means we minimize false positives. In the case of the `non functional` class, false positives are misclassifications of `functional` pumps as being `non functional`. The consequence of misclassifying a `functional` pump is that we waste resources in deploying a materials and a repairman to the pump. However, the underlying assumption here is that there is currently no way to know a pump's functional status without actually deploying someone to physically check it, in which case we would have to physically check the status of every pump. So if we can reduce the number of pumps we have to check, we are already better than the baseline. For example, a precision of 50% implies that for every 2 pumps that we check, we can be sure that at least one of them is `non functional`.
 
-Maximizing recall amounts to minimizing false negatives. False negatives in the case of the `non functional` class are misclassified `non functional` pumps, or classifying a `non functional` pump as being either `functional` or `functional needs repair`. Both of these misclassifications implies the pump is still working and is not in immediate need of replacement. 
+In order to maximize recall, false negatives must be minimized. False negatives in the case of the `non functional` class occur when a `non functional` pump is classified as either `functional` or `functional needs repair`. Both of these misclassifications implies the pump is still working and is not in immediate need of replacement. This puts local populations at the greatest risk. 
 
 
 A spacial map of the three functional classes of pumps is shown in Figure 2 below.
