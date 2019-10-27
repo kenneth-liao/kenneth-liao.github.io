@@ -2,7 +2,7 @@
 title: "About"
 permalink: /about/
 header:
-  image: "/images/road-sunset.jpg"
+  image: "/images/taiwan.jpg"
 ---
 
 I'm an artificial intelligence and machine learning enthusiast. I enjoy discovering meaning out of seemingly dormant data, communicating that meaning through creative visualizations, and driving impactful decisions.
