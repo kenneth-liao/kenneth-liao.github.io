@@ -11,7 +11,7 @@ mathjax: "true"
 # This sets the table of contents on the right of the page
 toc: true
 toc_label: "Table of Contents"
-toc_icon: "group"
+toc_icon: "users"
 toc_sticky: "true"
 ---
 
