@@ -19,10 +19,10 @@ locale                   : "en-US"
 title                    : "Kenneth Liao"
 title_separator          : "-"
 name                     : "Kenneth Liao"
-description              : "Data Science Portfolio."
-url                      : "kennfucius.github.io" # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
+description              : "Portfolio"
+url                      : "Kennfucius.github.io" # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : # the subpath of your site, e.g. "/blog"
-repository               : "kennfucius/kennfucius.github.io" # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
+repository               : "Kennfucius/kennfucius.github.io" # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
 teaser                   : # path of fallback teaser image, e.g. "/assets/images/500x300.png"
 # breadcrumbs            : false # true, false (default)
 words_per_minute         : 200
@@ -35,7 +35,7 @@ comments:
   facebook:
     # https://developers.facebook.com/docs/plugins/comments
     appid                :
-    num_posts            : 5 # 5 (default)
+    num_posts            : # 5 (default)
     colorscheme          : # "light" (default), "dark"
 staticman:
   allowedFields          : # ['name', 'email', 'url', 'message']
@@ -101,7 +101,7 @@ analytics:
 # Site Author
 author:
   name             : "Kenneth Liao"
-  avatar           : "/images/profile.jpg" # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
+  avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
   bio              : "Impact Through Data"
   location         : "Portland, OR"
   email            :
@@ -187,7 +187,6 @@ kramdown:
   toc_levels: 1..6
   smart_quotes: lsquo,rsquo,ldquo,rdquo
   enable_coderay: false
-  parse_block_html: false
 
 
 # Sass/SCSS
@@ -267,7 +266,7 @@ defaults:
       layout: single
       author_profile: true
       read_time: true
-      comments: true
+      comments: # true
       share: true
       related: true
   # _pages
