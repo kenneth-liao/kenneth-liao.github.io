@@ -66,7 +66,7 @@ data[['race', 'sex', 'call']].head()
 ```
 
 #### Table 1 | Sample of Data
-![Data Table]({{ "/images/0004-discrimination-jobs/data-table-fig1.png" | absolute_url }})
+![Data Table](/images/0004-discrimination-jobs/data-table-fig1.png)
 
 ```python
 # subset the race data into individual dataframes

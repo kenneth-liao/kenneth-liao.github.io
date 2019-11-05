@@ -34,7 +34,7 @@ The data I'll be using comes from boardgamegeek.com. The raw data has userID, ga
 |	83 | 43015 | 9.0 |
 
 #### Figure 1 | Ratings Distribution
-![Ratings Distribution]({{ "/images/0003-recommender-system/ratings-distribution.png" | absolute_url }})
+![Ratings Distribution](/images/0003-recommender-system/ratings-distribution.png)
 
 Figure 1 shows the distribution of all user ratings on a semilog plot. The median rating is 7.0. The ratings are clearly quantized at integer and half integer levels. A closer examination reveals further quantized levels at every quarter rating. Below the quarter interval the ratings distribution becomes more continuous.
 
@@ -43,7 +43,7 @@ Figure 1 shows the distribution of all user ratings on a semilog plot. The media
 The specific type of collaborative filtering model I want to build is commonly referred to as model based, as opposed to content based. The goal is for the model to find underlying features of the data that make good predictors of user ratings for a given game. This is sort of a black box approach because we don't actually know what these underlying features are. An intuitive assumption is to think of these features as common properties we would associate with board games such as genre, number of players, recommended age, average length of game, etc. If a user is asked to rate a game they've never played before, it's natural to think these properties would play an important role in the user's rating.
 
 #### Figure 2 | Matrix Implementation
-![Matrix Implementation]({{ "/images/0003-recommender-system/model.png" | absolute_url }})
+![Matrix Implementation](/images/0003-recommender-system/model.png)
 
 Implementation of the model in python is best optimized using matrix algebra which greatly speeds up calculations that must be performed iteratively. The matrix implementation is illustrated in Figure 2. The data is described by a users matrix and a games matrix. These matrices have a common dimension N_features. These are the features that the model will learn and each individual user or game will be described by a vector of these features. The number of features is a model parameter that we define and tune like the number of neurons in neural network models. To generate a prediction matrix of all users' predictions on all games, we perform a matrix multiplication as illustrated above.
 
@@ -85,7 +85,7 @@ X_cv = X_cv.pivot(index='user', columns='game', values='rating')
 20% of the data is reserved for cross-validation while 80% of the available data will be used for training. In pandas, this is easily done using the .sample(frac=0.2) method where the frac argument indicates we want to sample 20%. The corresponding values in the original dataframe is then blanked to form the training data set (Figure 3). This produces two dataframes, X_train and X_cv:
 
 #### Figure 3 | X_train & X_cv
-![X_train & X_cv]({{ "/images/0003-recommender-system/X_train&X_cv.png" | absolute_url }})
+![X_train & X_cv](/images/0003-recommender-system/X_train&X_cv.png)
 
 In order to use fmin_cg, we will have to provide the following 4 inputs:
 1. f(x) | Objective function - This is the function we are trying to optimize.
@@ -216,17 +216,17 @@ After training, the model will return a vectorized and optimized form of X (X_op
 ## Results
 
 #### Figure 3 | Feature Dependence
-![Feature Dependence]({{ "/images/0003-recommender-system/Nfeature-dependence.png" | absolute_url }})
+![Feature Dependence](/images/0003-recommender-system/Nfeature-dependence.png)
 
 Figure 3 shows the model's error dependence on the number of features, N. As the number of features increases, the model's error decreases. This is exactly what one should expect. If we attempt to predict user ratings of games given only the recommended age of the games, you can imagine the results would be quit unreliable. If however, we are given the game's recommended age, genre, number of players, game length, etc., the results should be more accurate.
 
 #### Figure 4 | Training Results
-![Training Results]({{ "/images/0003-recommender-system/predictions_vs_training.png" | absolute_url }})
+![Training Results](/images/0003-recommender-system/predictions_vs_training.png)
 
 Figure 4 shows the results of training the model. The predicted ratings are plotted against the actual ratings in the training data set. This gives a visual indication of how well the model fits the data based on the spread of points from the line with slope unity. If the model predicts the ratings perfectly, the points will all lie exactly on the black line. Of course, such a model would likely be prone to overfitting so including a regularization term can help mitigate overfitting.
 
 #### Figure 5 | Prediction Results
-![Prediction Results]({{ "/images/0003-recommender-system/predictions_vs_cv.png" | absolute_url }})
+![Prediction Results](/images/0003-recommender-system/predictions_vs_cv.png)
 
 After training the model, we can make predictions on the CV data set. Figure 5 shows the predicted ratings vs the actual ratings in the CV data set. The red line shows the line of best fit for the data. We can see the best fit line is quite skewed compared to the line with slope unity. The model tends to predict higher than the actual values at lower ratings while it tends to under predict at higher ratings. The regression line crosses the ideal line at around the median total rating. Also notice that at the higher ratings, some predictions are actually above 10 (10 is the maximum rating possible). This is something we can easily fix by setting boundaries on the model's output.
 
